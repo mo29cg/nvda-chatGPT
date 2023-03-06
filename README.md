@@ -27,4 +27,4 @@ api キーが取得できたら、このアドオンをインストール後に�
 
 ・このアドオンで使っている chatGPT アクセスのためのモジュール [revChatGPT](https://github.com/acheong08/ChatGPT)
 
-・import 周りの不具合を解決してくれた友達 [@sarnex](https://github.com/)
+・import 周りの不具合を解決してくれた友達 [@sarnex](https://github.com/sarnex)
