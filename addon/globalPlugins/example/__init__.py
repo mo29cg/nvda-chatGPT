@@ -3,9 +3,9 @@ import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'site-packages'))
 
-f = open("C:\\Users\\suzuki\\1.json", "w")
-print(pprint.pformat(sys.path), file=f)
-f.close()
+# f = open("C:\\Users\\suzuki\\1.json", "w")
+# print(pprint.pformat(sys.path), file=f)
+# f.close()
 import gui
 import wx
 import config
@@ -21,14 +21,14 @@ import threading
 from openai.error import RateLimitError
 from openai.error import ServiceUnavailableError
 
-module = "workingChatGPT"
+module = "askChatGPT"
 
 
 def initConfiguration():
     confspec = {
         "apiKey": "string( default='')",
-        "askWordBinding": "string( default='NVDA+a')",
-        "askSentence": "string( default='NVDA+l')",
+        "askWordBinding": "string( default='NVDA+shift+a')",
+        "askSentence": "string( default='NVDA+shift+l')",
     }
     config.conf.spec[module] = confspec
 
@@ -46,7 +46,7 @@ initConfiguration()
 
 
 class OptionsPanel(gui.SettingsPanel):
-    title = _("workingChatGPT")
+    title = _("askChatGPT")
 
     def makeSettings(self, settingsSizer):
         sHelper = gui.guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
@@ -85,8 +85,8 @@ def get_selected_text():
     return info.text.strip()
 
 
-def askChatGPT(text):
-    ui.message("asking to chatGPT")
+def askChatGPT(text, functionStartMessage):
+    ui.message(functionStartMessage)
 
     chatbot = Chatbot(
         api_key=getConfig("apiKey"))
@@ -120,7 +120,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             return
 
         threading1 = threading.Thread(
-            target=askChatGPT, args=(selectedText + "とはどういう意味ですか、返答は日本語でお願いします",))
+            target=askChatGPT, args=(selectedText + "とはどういう意味ですか、返答は日本語でお願いします", "asking the meaning to chatGPT"))
         threading1.start()
 
     @script(
@@ -135,5 +135,5 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             return
 
         threading1 = threading.Thread(
-            target=askChatGPT, args=(selectedText,))
+            target=askChatGPT, args=(selectedText, "sending the sentence to chatGPT"))
         threading1.start()
