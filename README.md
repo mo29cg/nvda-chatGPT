@@ -2,6 +2,10 @@
 
 chatGPT に対して質問できるショートカットキーを追加します。
 
+### ダウンロード
+
+[nvda-chatGPT](https://github.com/mo29cg/nvda-chatGPT/releases/download/release/nvdaChatGPT-0.1.nvda-addon)
+
 ### 必要な初期設定
 
 このアドオンを使うには chatGPT 公式から取得した API キー が必要です。これは無料で取得できます。
