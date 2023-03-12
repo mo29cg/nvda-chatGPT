@@ -1,36 +1,40 @@
-### このアドオンについて
+# nvda-chatGPT
 
-chatGPT に対して質問できるショートカットキーを追加します。
+## About
 
-### ダウンロード
+This add-on provides an access to chatGPT. through key bindings, so you can ask meanings of any words, or ask anyquestions.  
+Especially useful for asking difficult words that you don't know, or asking simple programming questions.  
+You need api key (it is free), but I think it's worth time.  
+You can read radme in, [Japanese](https://github.com/mo29cg/nvda-chatGPT/blob/main/README.ja.md).
+
+## Download
 
 [nvda-chatGPT](https://github.com/mo29cg/nvda-chatGPT/releases/download/release/nvdaChatGPT-0.1.nvda-addon)
 
-### 必要な初期設定
+## Setup (YOU NEED TO DO THIS)
 
-このアドオンを使うには chatGPT 公式から取得した API キー が必要です。これは無料で取得できます。
-取得方法は以下です。
+You need chatGPT api key to use this add-on (you can get it for frree).  
+Below is how to get api key and set up.
 
-1. https://platform.openai.com/account/api-keys　にいく
-2. ログイン（アカウントがなければ作る）
-3. "Create new secret key‍"というボタンを押す
+1. go to https://platform.openai.com/account/api-keys
+2. login (make an account, if you don't have one)
+3. press the button "Create new secret key‍"
+4. go to nvda - preference - settings - askChatGPT, and put the api key.
 
-api キーが取得できたら、このアドオンをインストール後に現れる NVDA の設定のタブの askChatGPT に api キーを入れる
+## Key bindings
 
-### 使い方
+First, select any words you wish to know the meaning of, or questions you wish to ask.  
+Then use the either of below.
 
-まず任意の文字列を選択します。その後、下記のショートカットキーのどちらかを使って chatGPT に送ります。
+- NVDA+shift+A Ask the meaning of selected word.
 
-- NVDA+shift+A 選択した単語の意味を chatGPT に聞く（英単語の意味や難しい熟語を聞くのに便利だと思います）
+- NVDA+shift+L Ask the question.
 
-- NVDA+shift+L 選択した文をそのまま chatGPT に送って返答を得る
+You can get responses in 3 ~ 30 seconds, depends on difficulty of the questions.  
+You can configure these key binding in setting, you need to restart nvda to apply new key bindings.
 
-ショートカットキーは設定で変更可能です。
-変更した場合は反映させるのに NVDA の再起動が必要です。
-存在しないキー等を設定してしまうと多分アドオンがぶっ壊れます。
+## contributor
 
-### 貢献・協力者
+- wrapper to access chatGPT [revChatGPT](https://github.com/acheong08/ChatGPT)
 
-・このアドオンで使っている chatGPT アクセスのためのモジュール [revChatGPT](https://github.com/acheong08/ChatGPT)
-
-・import 周りの不具合を解決してくれた友達 [@sarnex](https://github.com/sarnex)
+- Figureed out how to correctly import modules [@sarnex](https://github.com/sarnex)
