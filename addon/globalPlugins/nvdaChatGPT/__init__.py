@@ -27,6 +27,7 @@ module = "askChatGPT"
 def initConfiguration():
     confspec = {
         "apiKey": "string( default='')",
+        "outputLanguageIndex": "integer( default=0, min=0, max=2)",
         "askWordBinding": "string( default='NVDA+shift+a')",
         "askSentence": "string( default='NVDA+shift+l')",
     }
@@ -47,6 +48,10 @@ initConfiguration()
 
 class OptionsPanel(gui.SettingsPanel):
     title = _("askChatGPT")
+    languages = [
+        _("English"),
+        _("Japanese"),
+    ]
 
     def makeSettings(self, settingsSizer):
         sHelper = gui.guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
@@ -54,6 +59,12 @@ class OptionsPanel(gui.SettingsPanel):
         self.apiKey = sHelper.addLabeledControl(
             _("chatGPT api key:"), wx.TextCtrl)
         self.apiKey.Value = getConfig("apiKey")
+
+        label = _("Output language :")
+        self.outputLanguage = sHelper.addLabeledControl(
+            label, wx.Choice, choices=self.languages)
+        self.outputLanguage.Selection = getConfig(
+            "outputLanguageIndex")
 
         self.askWordBinding = sHelper.addLabeledControl(
             _("key binding for ask wword: "), wx.TextCtrl)
@@ -66,6 +77,7 @@ class OptionsPanel(gui.SettingsPanel):
 
     def onSave(self):
         setConfig("apiKey", self.apiKey.Value)
+        setConfig("outputLanguageIndex", self.outputLanguage.Selection)
         setConfig("askSentence", self.askSentence.Value)
         ui.message("You need to restart nvda to take effect")
 
@@ -83,6 +95,15 @@ def get_selected_text():
     except (RuntimeError, NotImplementedError):
         return ""
     return info.text.strip()
+
+
+def createAskMeaning(word):
+    outputLanguageIndex = getConfig("outputLanguageIndex")
+
+    if (outputLanguageIndex == 0):
+        return "What is the meaning of " + word + "? Respond in english"
+    elif (outputLanguageIndex == 1):
+        return word + "とはどういう意味ですか、返答は日本語でお願いします"
 
 
 def askChatGPT(text, functionStartMessage):
@@ -109,7 +130,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(
             OptionsPanel)
 
-    @script(
+    @ script(
         description=_("ask the meaning of a word to chatGPT"),
         gestures=["kb:" + getConfig("askWordBinding")]
     )
@@ -120,10 +141,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             return
 
         threading1 = threading.Thread(
-            target=askChatGPT, args=(selectedText + "とはどういう意味ですか、返答は日本語でお願いします", "asking the meaning to chatGPT"))
+            target=askChatGPT, args=(createAskMeaning(selectedText), "asking the meaning to chatGPT"))
         threading1.start()
 
-    @script(
+    @ script(
         description=_("ask the meaning of a word to chatGPT"),
         gestures=["kb:" + getConfig("askSentence")]
         # gestures=["kb:NVDA+l"]
