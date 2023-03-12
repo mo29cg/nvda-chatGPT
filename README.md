@@ -9,7 +9,7 @@ You can read radme in, [Japanese](https://github.com/mo29cg/nvda-chatGPT/blob/ma
 
 ## Download
 
-[nvda-chatGPT](https://github.com/mo29cg/nvda-chatGPT/releases/download/release/nvdaChatGPT-0.1.nvda-addon)
+[nvda-chatGPT](https://github.com/mo29cg/nvda-chatGPT/releases/latest/download/nvdaChatGPT.nvda-addon)
 
 ## Setup (YOU NEED TO DO THIS)
 

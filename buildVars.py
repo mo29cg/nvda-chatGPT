@@ -25,13 +25,13 @@ addon_info = {
     # Translators: Long description to be shown for this add-on on add-on information from add-ons manager
     "addon_description": _("""provider an access to chatGPT"""),
     # version
-    "addon_version": "0.1",
+    "addon_version": "0.2",
     # Author(s)
     "addon_author": "suzukix<lcong5946@gmail.com>",
     # URL for the add-on documentation support
     "addon_url": None,
     # URL for the add-on repository where the source code can be found
-    "addon_sourceURL": None,
+    "addon_sourceURL": "https://github.com/mo29cg/nvda-chatGPT",
     # Documentation file name
     "addon_docFileName": "readme.html",
     # Minimum NVDA version supported (e.g. "2018.3.0", minor version is optional)
