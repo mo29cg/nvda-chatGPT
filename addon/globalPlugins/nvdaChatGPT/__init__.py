@@ -28,8 +28,6 @@ def initConfiguration():
     confspec = {
         "apiKey": "string( default='')",
         "outputLanguageIndex": "integer( default=0, min=0, max=2)",
-        "askWordBinding": "string( default='NVDA+shift+a')",
-        "askSentence": "string( default='NVDA+shift+l')",
     }
     config.conf.spec[module] = confspec
 
@@ -66,20 +64,9 @@ class OptionsPanel(gui.SettingsPanel):
         self.outputLanguage.Selection = getConfig(
             "outputLanguageIndex")
 
-        self.askWordBinding = sHelper.addLabeledControl(
-            _("key binding for ask wword: "), wx.TextCtrl)
-
-        self.askWordBinding.Value = getConfig("askWordBinding")
-
-        self.askSentence = sHelper.addLabeledControl(
-            _("key binding for ask sentence:"), wx.TextCtrl)
-        self.askSentence.Value = getConfig("askSentence")
-
     def onSave(self):
         setConfig("apiKey", self.apiKey.Value)
         setConfig("outputLanguageIndex", self.outputLanguage.Selection)
-        setConfig("askSentence", self.askSentence.Value)
-        ui.message("You need to restart nvda to take effect")
 
 # this way, it can get selected text from anywhere
 
@@ -130,9 +117,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(
             OptionsPanel)
 
-    @ script(
-        description=_("ask the meaning of a word to chatGPT"),
-        gestures=["kb:" + getConfig("askWordBinding")]
+    @script(
+        category=_("Ask chatGPT"),
+        description=_("Ask the meaning of a word to chatGPT"),
+        gestures=["kb:NVDA+shift+w"]
     )
     def script_askMeaningOfWord(self, gesture):
         selectedText = get_selected_text()
@@ -144,10 +132,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             target=askChatGPT, args=(createAskMeaning(selectedText), "asking the meaning to chatGPT"))
         threading1.start()
 
-    @ script(
-        description=_("ask the meaning of a word to chatGPT"),
-        gestures=["kb:" + getConfig("askSentence")]
-        # gestures=["kb:NVDA+l"]
+    @script(
+        category=_("Ask chatGPT"),
+        description=_("Ask the sentence to chatGPT"),
+        gestures=["kb:NVDA+shift+l"]
     )
     def script_askSentence(self, gesture):
         selectedText = get_selected_text()
