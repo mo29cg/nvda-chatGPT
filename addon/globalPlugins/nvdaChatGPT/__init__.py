@@ -20,6 +20,7 @@ import api
 import threading
 from openai.error import RateLimitError
 from openai.error import ServiceUnavailableError
+import queueHandler
 
 module = "askChatGPT"
 
@@ -94,15 +95,20 @@ def createAskMeaning(word):
 
 
 def askChatGPT(text, functionStartMessage):
-    ui.message(functionStartMessage)
+    # Apparently ui.message doesn'T work in threads with a braille display, and this is how to make it work.
+    queueHandler.queueFunction(
+        queueHandler.eventQueue, ui.message, functionStartMessage)
 
     chatbot = Chatbot(
         api_key=getConfig("apiKey"))
     try:
         response = chatbot.ask(text)
-        ui.browseableMessage(response["choices"][0]["text"])
+        queueHandler.queueFunction(
+            queueHandler.eventQueue, ui.browseableMessage, response["choices"][0]["text"])
+        # ui.browseableMessage(response["choices"][0]["text"])
     except (RateLimitError, ServiceUnavailableError):
-        ui.message("the server is busy, try again later")
+        queueHandler.queueFunction(
+            queueHandler.eventQueue, ui.message, "the server is busy, try again later")
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
