@@ -21,7 +21,7 @@ import ui
 import textInfos
 import api
 import threading
-from openai.error import RateLimitError
+from openai.error import RateLimitError, AuthenticationError
 from openai.error import ServiceUnavailableError
 import queueHandler
 
@@ -100,7 +100,7 @@ def get_selected_text():
 def isSelectedTextEmpty(selectedText):
     if len(selectedText) == 0:
         openTextBox = getConfig("openTextBox")
-        if openTextBox:
+        if openTextBox and dialogs.textBoxInstance == None:
             gui.mainFrame.prePopup()
             dialogs.textBoxInstance = TextBox()
             dialogs.textBoxInstance.Show()
@@ -110,6 +110,16 @@ def isSelectedTextEmpty(selectedText):
         return True
     else:
         return False
+
+
+def isApiKeyEmpty():
+
+    apiKey = getConfig("apiKey")
+    if len(apiKey) == 0:
+        ui.message("Set an api key first.")
+        return True
+
+    return False
 
 
 def createAskMeaning(word):
@@ -136,6 +146,9 @@ def askChatGPT(text, functionStartMessage):
     except (RateLimitError, ServiceUnavailableError):
         queueHandler.queueFunction(
             queueHandler.eventQueue, ui.message, "the server is busy, try again later")
+    except (AuthenticationError):
+        queueHandler.queueFunction(
+            queueHandler.eventQueue, ui.message, "The api key is incorrect, set a correct one..")
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
@@ -157,7 +170,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     )
     def script_askMeaningOfWord(self, gesture):
         selectedText = get_selected_text()
-        if isSelectedTextEmpty(selectedText):
+        if isApiKeyEmpty() or isSelectedTextEmpty(selectedText):
             return
 
         threading1 = threading.Thread(
@@ -171,7 +184,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     )
     def script_askSentence(self, gesture):
         selectedText = get_selected_text()
-        if isSelectedTextEmpty(selectedText):
+        if isApiKeyEmpty() or isSelectedTextEmpty(selectedText):
             return
 
         threading1 = threading.Thread(

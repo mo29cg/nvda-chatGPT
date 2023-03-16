@@ -1,7 +1,9 @@
+import ui
 import wx
 import gui
 from gui import guiHelper
 import weakref
+from .myLog import mylog
 
 textBoxInstance = None
 
@@ -60,9 +62,20 @@ class TextBox(wx.Dialog):
         sHelper.addDialogDismissButtons(buttons, True)
         mainSizer.Add(sHelper.sizer, proportion=1, flag=wx.EXPAND)
         self.SetSizer(mainSizer)
+        self.noteEditArea.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
         self.Bind(wx.EVT_CLOSE, self.onDiscard)
         self.Bind(wx.EVT_WINDOW_DESTROY, self.onDestroy)
         self.EscapeId = wx.ID_CLOSE
+
+    def onKeyDown(self, event):
+
+        keycode = event.GetKeyCode()
+
+        # windows key, it might be better if text box closes, when focus is moved by windows + number
+        if keycode == 393:
+            self._clean()
+        else:
+            event.Skip()
 
     def onDestroy(self, evt):
         global textBoxInstance
