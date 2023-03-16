@@ -1,3 +1,6 @@
+from . import dialogs
+from .dialogs import TextBox
+
 import pprint
 import os
 import sys
@@ -29,6 +32,7 @@ def initConfiguration():
     confspec = {
         "apiKey": "string( default='')",
         "outputLanguageIndex": "integer( default=0, min=0, max=2)",
+        "openTextBox": "boolean( default=False)",
     }
     config.conf.spec[module] = confspec
 
@@ -59,15 +63,22 @@ class OptionsPanel(gui.SettingsPanel):
             _("chatGPT api key:"), wx.TextCtrl)
         self.apiKey.Value = getConfig("apiKey")
 
-        label = _("Output language :")
+        label = _("Output language of a meaning of wordsf :")
         self.outputLanguage = sHelper.addLabeledControl(
             label, wx.Choice, choices=self.languages)
         self.outputLanguage.Selection = getConfig(
             "outputLanguageIndex")
 
+        label = _("Open text box, when nothing is selected.")
+        self.openTextBoxCheckbox = sHelper.addItem(
+            wx.CheckBox(self, label=label))
+        self.openTextBoxCheckbox .Value = getConfig("openTextBox")
+
     def onSave(self):
         setConfig("apiKey", self.apiKey.Value)
         setConfig("outputLanguageIndex", self.outputLanguage.Selection)
+        setConfig("openTextBox", self.openTextBoxCheckbox .Value)
+
 
 # this way, it can get selected text from anywhere
 
@@ -82,7 +93,23 @@ def get_selected_text():
         info = obj.makeTextInfo(textInfos.POSITION_SELECTION)
     except (RuntimeError, NotImplementedError):
         return ""
+
     return info.text.strip()
+
+
+def isSelectedTextEmpty(selectedText):
+    if len(selectedText) == 0:
+        openTextBox = getConfig("openTextBox")
+        if openTextBox:
+            gui.mainFrame.prePopup()
+            dialogs.textBoxInstance = TextBox()
+            dialogs.textBoxInstance.Show()
+            gui.mainFrame.postPopup()
+        else:
+            ui.message("no selection")
+        return True
+    else:
+        return False
 
 
 def createAskMeaning(word):
@@ -130,8 +157,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     )
     def script_askMeaningOfWord(self, gesture):
         selectedText = get_selected_text()
-        if len(selectedText) == 0:
-            ui.message("no selection")
+        if isSelectedTextEmpty(selectedText):
             return
 
         threading1 = threading.Thread(
@@ -145,8 +171,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     )
     def script_askSentence(self, gesture):
         selectedText = get_selected_text()
-        if len(selectedText) == 0:
-            ui.message("no selection")
+        if isSelectedTextEmpty(selectedText):
             return
 
         threading1 = threading.Thread(
