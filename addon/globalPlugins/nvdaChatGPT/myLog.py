@@ -1,5 +1,5 @@
 import threading
-debug = False
+debug = True
 
 
 if debug:

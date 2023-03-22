@@ -1,11 +1,9 @@
-from . import dialogs
-from .dialogs import TextBox
-
-import pprint
 import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'site-packages'))
-
+from .myLog import mylog
+from .promptOption import EnumPromptOption
+from .dialogs import TextBox
 # f = open("C:\\Users\\suzuki\\1.json", "w")
 # print(pprint.pformat(sys.path), file=f)
 # f.close()
@@ -13,7 +11,6 @@ import gui
 import wx
 import config
 from scriptHandler import script
-import inputCore
 import globalPluginHandler
 from revChatGPT.Official import Chatbot
 import treeInterceptorHandler
@@ -99,14 +96,7 @@ def get_selected_text():
 
 def isSelectedTextEmpty(selectedText):
     if len(selectedText) == 0:
-        openTextBox = getConfig("openTextBox")
-        if openTextBox and dialogs.textBoxInstance == None:
-            gui.mainFrame.prePopup()
-            dialogs.textBoxInstance = TextBox()
-            dialogs.textBoxInstance.Show()
-            gui.mainFrame.postPopup()
-        else:
-            ui.message("no selection")
+
         return True
     else:
         return False
@@ -142,7 +132,6 @@ def askChatGPT(text, functionStartMessage):
         response = chatbot.ask(text)
         queueHandler.queueFunction(
             queueHandler.eventQueue, ui.browseableMessage, response["choices"][0]["text"])
-        # ui.browseableMessage(response["choices"][0]["text"])
     except (RateLimitError, ServiceUnavailableError):
         queueHandler.queueFunction(
             queueHandler.eventQueue, ui.message, "the server is busy, try again later")
@@ -169,8 +158,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         gestures=["kb:NVDA+shift+w"]
     )
     def script_askMeaningOfWord(self, gesture):
+        if isApiKeyEmpty():
+            return
         selectedText = get_selected_text()
-        if isApiKeyEmpty() or isSelectedTextEmpty(selectedText):
+
+        if isSelectedTextEmpty(selectedText):
+            gui.mainFrame.prePopup()
+            textBoxInstance = TextBox(EnumPromptOption.ASKMEANINGOF)
+            textBoxInstance.Show()
+            # Raise put focus on the window, when it is already open, but lost focus.
+            textBoxInstance.Raise()
+            gui.mainFrame.postPopup()
             return
 
         threading1 = threading.Thread(
@@ -183,10 +181,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         gestures=["kb:NVDA+shift+l"]
     )
     def script_askSentence(self, gesture):
-        selectedText = get_selected_text()
-        if isApiKeyEmpty() or isSelectedTextEmpty(selectedText):
+        if isApiKeyEmpty():
             return
 
-        threading1 = threading.Thread(
-            target=askChatGPT, args=(selectedText, "sending the sentence to chatGPT"))
-        threading1.start()
+        gui.mainFrame.prePopup()
+        textBoxInstance = TextBox(EnumPromptOption.ASKSENTENCE)
+        textBoxInstance.Show()
+        textBoxInstance.Raise()
+        gui.mainFrame.postPopup()
