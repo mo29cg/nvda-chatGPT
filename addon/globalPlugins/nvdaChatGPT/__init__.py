@@ -29,7 +29,6 @@ def initConfiguration():
     confspec = {
         "apiKey": "string( default='')",
         "outputLanguageIndex": "integer( default=0, min=0, max=2)",
-        "openTextBox": "boolean( default=False)",
     }
     config.conf.spec[module] = confspec
 
@@ -67,14 +66,10 @@ class OptionsPanel(gui.SettingsPanel):
             "outputLanguageIndex")
 
         label = _("Open text box, when nothing is selected.")
-        self.openTextBoxCheckbox = sHelper.addItem(
-            wx.CheckBox(self, label=label))
-        self.openTextBoxCheckbox .Value = getConfig("openTextBox")
 
     def onSave(self):
         setConfig("apiKey", self.apiKey.Value)
         setConfig("outputLanguageIndex", self.outputLanguage.Selection)
-        setConfig("openTextBox", self.openTextBoxCheckbox .Value)
 
 
 # this way, it can get selected text from anywhere
