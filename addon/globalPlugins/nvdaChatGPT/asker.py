@@ -19,12 +19,20 @@ def getConfig(key):
 
 
 def createAskMeaningPrompt(word):
+
+    languagesModels = [
+        "What is the meaning of {}? Respond in Chinese",
+        "What is the meaning of {}? Respond in English",
+        "What is the meaning of {}? Respond in Italian",
+        "{}とはどういう意味ですか、返答は日本語でお願いします",
+        "What is the meaning of {}? Respond in Korean",
+        "What is the meaning of {}? Respond in Portuguese",
+        "What is the meaning of {}? Respond in Spanish",
+        "What is the meaning of {}? Respond in Turkish",
+    ]
     outputLanguageIndex = getConfig("outputLanguageIndex")
 
-    if (outputLanguageIndex == 0):
-        return "What is the meaning of " + word + "? Respond in english"
-    elif (outputLanguageIndex == 1):
-        return word + "とはどういう意味ですか、返答は日本語でお願いします"
+    return languagesModels[outputLanguageIndex].format(word)
 
 
 def askChatGPT(prompt: str, functionStartMessage):

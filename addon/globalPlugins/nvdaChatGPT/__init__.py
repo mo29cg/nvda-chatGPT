@@ -29,7 +29,7 @@ module = "askChatGPT"
 def initConfiguration():
     confspec = {
         "apiKey": "string( default='')",
-        "outputLanguageIndex": "integer( default=0, min=0, max=2)",
+        "outputLanguageIndex": "integer( default=1, min=0, max=8)",
     }
     config.conf.spec[module] = confspec
 
@@ -49,8 +49,14 @@ initConfiguration()
 class OptionsPanel(gui.SettingsPanel):
     title = _("askChatGPT")
     languages = [
+        _("Chinese"),
         _("English"),
+        _("Italian"),
         _("Japanese"),
+        _("Korean"),
+        _("Portuguese"),
+        _("Spanish"),
+        _("Turkish"),
     ]
 
     def makeSettings(self, settingsSizer):
