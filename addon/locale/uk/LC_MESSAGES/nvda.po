@@ -1,0 +1,92 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2023-03-28 19:06+0300\n"
+"PO-Revision-Date: 2023-03-28 20:11+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: uk_UA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Poedit-Basepath: ../../../globalPlugins\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: nvdaChatGPT/__init__.py:50
+msgid "askChatGPT"
+msgstr "запитати ChatGPT"
+
+#: nvdaChatGPT/__init__.py:52
+msgid "Chinese"
+msgstr "Китайська"
+
+#: nvdaChatGPT/__init__.py:53
+msgid "English"
+msgstr "Англійська"
+
+#: nvdaChatGPT/__init__.py:54
+msgid "Italian"
+msgstr "Італійська"
+
+#: nvdaChatGPT/__init__.py:55
+msgid "Japanese"
+msgstr "Японська"
+
+#: nvdaChatGPT/__init__.py:56
+msgid "Korean"
+msgstr "Корейська"
+
+#: nvdaChatGPT/__init__.py:57
+msgid "Portuguese"
+msgstr "Португальська"
+
+#: nvdaChatGPT/__init__.py:58
+msgid "Spanish"
+msgstr "Іспанська"
+
+#: nvdaChatGPT/__init__.py:59
+msgid "Turkish"
+msgstr "Турецька"
+
+#: nvdaChatGPT/__init__.py:66
+msgid "chatGPT api key:"
+msgstr "ключ API chat GPT:"
+
+#: nvdaChatGPT/__init__.py:69
+msgid "Output language of a meaning of wordsf :"
+msgstr "Мова виведення значення слів:"
+
+#: nvdaChatGPT/__init__.py:75
+msgid "Open text box, when nothing is selected."
+msgstr "відкрити поле редагування, коли нічого не виділено"
+
+#: nvdaChatGPT/__init__.py:130 nvdaChatGPT/__init__.py:151
+msgid "Ask chatGPT"
+msgstr "Запитати ChatGPT"
+
+#: nvdaChatGPT/__init__.py:131
+msgid "Ask the meaning of a word to chatGPT"
+msgstr "Запитати значення слова у chatGPT"
+
+#: nvdaChatGPT/__init__.py:152
+msgid "Ask the sentence to chatGPT"
+msgstr "Запитати речення в chat GPT"
+
+#: nvdaChatGPT/dialogs.py:31
+msgid "What word do you want to know?"
+msgstr "Яке слово ви хочете дізнатися?"
+
+#: nvdaChatGPT/dialogs.py:39
+msgid "What do you want to ask?"
+msgstr "Про що ви хочете запитати?"
+
+#: nvdaChatGPT/dialogs.py:71
+msgid "&Close"
+msgstr "&Закрити"
+
+#~ msgid "provider an access to chatGPT"
+#~ msgstr "Надає доступ до chatGPT"
