@@ -1,18 +1,19 @@
 import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'site-packages'))
+from .asker import askChatGPT, createAskMeaningPrompt
+import markdown2
+from .asker import startThreadOfRequesting
+from .promptOption import EnumPromptOption
 from .myLog import mylog
 from .promptOption import EnumPromptOption
 from .dialogs import TextBox
-# f = open("C:\\Users\\suzuki\\1.json", "w")
-# print(pprint.pformat(sys.path), file=f)
-# f.close()
 import gui
 import wx
 import config
 from scriptHandler import script
 import globalPluginHandler
-from revChatGPT.Official import Chatbot
+from revChatGPT.V3 import Chatbot
 import treeInterceptorHandler
 import ui
 import textInfos
@@ -107,34 +108,6 @@ def isApiKeyEmpty():
     return False
 
 
-def createAskMeaning(word):
-    outputLanguageIndex = getConfig("outputLanguageIndex")
-
-    if (outputLanguageIndex == 0):
-        return "What is the meaning of " + word + "? Respond in english"
-    elif (outputLanguageIndex == 1):
-        return word + "とはどういう意味ですか、返答は日本語でお願いします"
-
-
-def askChatGPT(text, functionStartMessage):
-    # Apparently ui.message doesn'T work in threads with a braille display, and this is how to make it work.
-    queueHandler.queueFunction(
-        queueHandler.eventQueue, ui.message, functionStartMessage)
-
-    chatbot = Chatbot(
-        api_key=getConfig("apiKey"))
-    try:
-        response = chatbot.ask(text)
-        queueHandler.queueFunction(
-            queueHandler.eventQueue, ui.browseableMessage, response["choices"][0]["text"])
-    except (RateLimitError, ServiceUnavailableError):
-        queueHandler.queueFunction(
-            queueHandler.eventQueue, ui.message, "the server is busy, try again later")
-    except (AuthenticationError):
-        queueHandler.queueFunction(
-            queueHandler.eventQueue, ui.message, "The api key is incorrect, set a correct one..")
-
-
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
     def __init__(self):
@@ -166,9 +139,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             gui.mainFrame.postPopup()
             return
 
-        threading1 = threading.Thread(
-            target=askChatGPT, args=(createAskMeaning(selectedText), "asking the meaning to chatGPT"))
-        threading1.start()
+        startThreadOfRequesting(EnumPromptOption.ASKMEANINGOF, selectedText)
 
     @script(
         category=_("Ask chatGPT"),

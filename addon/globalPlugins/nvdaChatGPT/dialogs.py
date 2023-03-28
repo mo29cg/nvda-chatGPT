@@ -1,16 +1,9 @@
-from .asker import askChatGPT, createAskMeaning
-import threading
+from .asker import isProcessingOtherQuestion, startThreadOfRequesting
 from .promptOption import EnumPromptOption
-import queueHandler
-import ui
 import wx
 import gui
 from gui import guiHelper
 import weakref
-from .myLog import mylog
-
-
-threadObj = None
 
 
 class TextBox(wx.Dialog):
@@ -95,17 +88,12 @@ class TextBox(wx.Dialog):
 
         elif keycode == wx.WXK_RETURN and self.controlPressed:
             # Don't allow asking two questions at the same time.
-            runnings = threading.enumerate()
-            for th in runnings:
-                if th.name == "askChatGPT":
-                    queueHandler.queueFunction(
-                        queueHandler.eventQueue, ui.message, "You are already asking something, wait for the response first")
-                    break
-            else:
-                userInput = self.noteEditArea.GetValue()
-                self.startThreadOfRequesting(userInput)
+            if isProcessingOtherQuestion():
+                return
+            userInput = self.noteEditArea.GetValue()
+            startThreadOfRequesting(self.promptOption, userInput)
 
-                self._clean()
+            self._clean()
 
             return
         event.Skip()
@@ -130,13 +118,3 @@ class TextBox(wx.Dialog):
 
         self.DestroyChildren()
         self.Destroy()
-
-    def startThreadOfRequesting(self, input: str):
-        global threadObj
-        if self.promptOption == EnumPromptOption.ASKMEANINGOF:
-            threadObj = threading.Thread(
-                target=askChatGPT, args=(createAskMeaning(input), "asking the Weaning to chatGPT"), name="askChatGPT")
-        elif self.promptOption == EnumPromptOption.ASKSENTENCE:
-            threadObj = threading.Thread(
-                target=askChatGPT, args=(input, "asking the sentence to chatGPT"), name="askChatGPT")
-        threadObj.start()
