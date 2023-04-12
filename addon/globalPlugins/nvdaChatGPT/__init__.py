@@ -2,9 +2,10 @@ import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'site-packages'))
 from .asker import askChatGPT, createAskMeaningPrompt
-import markdown2
-from .asker import startThreadOfRequesting
+from . import languages as languages
+from . import asker as asker
 from .promptOption import EnumPromptOption
+from . import configManager as configManager
 from .myLog import mylog
 from .promptOption import EnumPromptOption
 from .dialogs import TextBox
@@ -22,61 +23,34 @@ import threading
 from openai.error import RateLimitError, AuthenticationError
 from openai.error import ServiceUnavailableError
 import queueHandler
-
-module = "askChatGPT"
-
-
-def initConfiguration():
-    confspec = {
-        "apiKey": "string( default='')",
-        "outputLanguageIndex": "integer( default=1, min=0, max=8)",
-    }
-    config.conf.spec[module] = confspec
+from . import requestThreader as requestThreader
 
 
-def getConfig(key):
-    value = config.conf[module][key]
-    return value
-
-
-def setConfig(key, value):
-    config.conf[module][key] = value
-
-
-initConfiguration()
+configManager.initConfiguration()
 
 
 class OptionsPanel(gui.SettingsPanel):
     title = _("askChatGPT")
-    languages = [
-        _("Chinese"),
-        _("English"),
-        _("Italian"),
-        _("Japanese"),
-        _("Korean"),
-        _("Portuguese"),
-        _("Spanish"),
-        _("Turkish"),
-    ]
 
     def makeSettings(self, settingsSizer):
         sHelper = gui.guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
 
         self.apiKey = sHelper.addLabeledControl(
             _("chatGPT api key:"), wx.TextCtrl)
-        self.apiKey.Value = getConfig("apiKey")
+        self.apiKey.Value = configManager.getConfig("apiKey")
 
         label = _("Output language of a meaning of wordsf :")
         self.outputLanguage = sHelper.addLabeledControl(
-            label, wx.Choice, choices=self.languages)
-        self.outputLanguage.Selection = getConfig(
+            label, wx.Choice, choices=languages.LANGUAGE_OPTIONS)
+        self.outputLanguage.Selection = configManager.getConfig(
             "outputLanguageIndex")
 
         label = _("Open text box, when nothing is selected.")
 
     def onSave(self):
-        setConfig("apiKey", self.apiKey.Value)
-        setConfig("outputLanguageIndex", self.outputLanguage.Selection)
+        configManager.setConfig("apiKey", self.apiKey.Value)
+        configManager.setConfig("outputLanguageIndex",
+                                self.outputLanguage.Selection)
 
 
 # this way, it can get selected text from anywhere
@@ -106,7 +80,7 @@ def isSelectedTextEmpty(selectedText):
 
 def isApiKeyEmpty():
 
-    apiKey = getConfig("apiKey")
+    apiKey = configManager.getConfig("apiKey")
     if len(apiKey) == 0:
         ui.message("Set an api key first.")
         return True
@@ -145,7 +119,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             gui.mainFrame.postPopup()
             return
 
-        startThreadOfRequesting(EnumPromptOption.ASKMEANINGOF, selectedText)
+        requestThreader.start_thread(
+            asker.askChatGPT, (asker.createAskMeaningPrompt(selectedText),),
+            startMessage="asking the meaning to chatGPT")
 
     @script(
         category=_("Ask chatGPT"),
