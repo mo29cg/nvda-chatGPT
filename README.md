@@ -30,6 +30,12 @@ Below is how to get api key and set up.
 Press ctrl + enter to send a request in the dialog.
 You can get responses in 3 ~ 30 seconds, depends on difficulty of the questions.
 
+### I need your supports!
+
+Due to my visual impairment, my capability for jobs is pretty limited.  
+I'd really appreciate donations if anyone find my add-on useful.  
+Here is the link: [paypal.me](https://paypal.me/satoshi26)
+
 ### contributor
 
 - wrapper to access chatGPT [revChatGPT](https://github.com/acheong08/ChatGPT)
