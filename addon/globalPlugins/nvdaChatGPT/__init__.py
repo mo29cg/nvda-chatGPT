@@ -24,6 +24,8 @@ from openai.error import RateLimitError, AuthenticationError
 from openai.error import ServiceUnavailableError
 import queueHandler
 from . import requestThreader as requestThreader
+from . import instructions as instructions
+from . import messenger as messenger
 
 
 configManager.initConfiguration()
@@ -82,7 +84,7 @@ def isApiKeyEmpty():
 
     apiKey = configManager.getConfig("apiKey")
     if len(apiKey) == 0:
-        ui.message("Set an api key first.")
+        messenger.emitUiBrowseableMessage(instructions.API_KEY_NOT_SET_ERROR)
         return True
 
     return False
