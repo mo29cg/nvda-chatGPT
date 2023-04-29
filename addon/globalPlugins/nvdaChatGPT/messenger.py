@@ -9,7 +9,6 @@ def emitUiBrowseableMessage(message):
         message, extras=["fenced-code-blocks", "code-friendly"])
     html_String = html_String.rstrip('\n')
     html_String = html_String.rstrip('\n')
-    mylog(html_String)
     queueHandler.queueFunction(
         queueHandler.eventQueue, ui.browseableMessage, html_String, isHtml=True)
 
