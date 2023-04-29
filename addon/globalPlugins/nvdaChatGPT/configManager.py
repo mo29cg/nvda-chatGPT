@@ -6,7 +6,8 @@ module = "askChatGPT"
 def initConfiguration():
     confspec = {
         "apiKey": "string( default='')",
-        "outputLanguageIndex": "integer( default=2, min=0, max=11)",
+        "outputLanguageIndex": "integer( default=3, min=0, max=15)",
+        "dontShowCaution": "boolean( default=False)",
     }
     config.conf.spec[module] = confspec
 

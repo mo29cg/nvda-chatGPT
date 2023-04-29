@@ -22,6 +22,9 @@ def readConversation():
     with open(convo_file_path, 'r') as file:
         try:
             data = json.load(file)
-            return data
+            if "default" in data:
+                return data["default"]
+            else:
+                return []
         except (JSONDecodeError):
-            return {}
+            return []

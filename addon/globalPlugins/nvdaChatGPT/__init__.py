@@ -8,7 +8,7 @@ from .promptOption import EnumPromptOption
 from . import configManager as configManager
 from .myLog import mylog
 from .promptOption import EnumPromptOption
-from .dialogs import TextBox
+from .dialogs import QuestionDialog
 import gui
 import wx
 import config
@@ -26,33 +26,44 @@ import queueHandler
 from . import requestThreader as requestThreader
 from . import instructions as instructions
 from . import messenger as messenger
+import addonHandler
 
 
 configManager.initConfiguration()
+addonHandler.initTranslation()
 
 
 class OptionsPanel(gui.SettingsPanel):
-    title = _("askChatGPT")
+    # Translators: Name  of category in setting panel.
+    title = _("Ask chatGPT")
 
     def makeSettings(self, settingsSizer):
         sHelper = gui.guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
 
+        # Translators: TextBox for open ai api key.
+        label = _("chatGPT api key:")
         self.apiKey = sHelper.addLabeledControl(
-            _("chatGPT api key:"), wx.TextCtrl)
+            label, wx.TextCtrl)
         self.apiKey.Value = configManager.getConfig("apiKey")
 
-        label = _("Output language of a meaning of wordsf :")
+        # Translators: SelectBox for output language when you ask meaning of a word.
+        label = _("Output language of a meaning of words :")
         self.outputLanguage = sHelper.addLabeledControl(
             label, wx.Choice, choices=languages.LANGUAGE_OPTIONS)
         self.outputLanguage.Selection = configManager.getConfig(
             "outputLanguageIndex")
 
-        label = _("Open text box, when nothing is selected.")
+        # Translators: Checkbox for if you want a caution or not.
+        label = _("Don't show a caution when a conversation is long")
+        self.dontShowCaution = sHelper.addItem(
+            wx.CheckBox(self, label=label))
+        self.dontShowCaution.Value = configManager.getConfig("dontShowCaution")
 
     def onSave(self):
         configManager.setConfig("apiKey", self.apiKey.Value)
         configManager.setConfig("outputLanguageIndex",
                                 self.outputLanguage.Selection)
+        configManager.setConfig("dontShowCaution", self.dontShowCaution.Value)
 
 
 # this way, it can get selected text from anywhere
@@ -103,7 +114,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             OptionsPanel)
 
     @script(
+        # Translators: Nmae of category in input gesture.
         category=_("Ask chatGPT"),
+        # Translators: Description of gesture in input gesture.
         description=_("Ask the meaning of a word to chatGPT"),
         gestures=["kb:NVDA+shift+w"]
     )
@@ -114,7 +127,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
         if isSelectedTextEmpty(selectedText):
             gui.mainFrame.prePopup()
-            textBoxInstance = TextBox(EnumPromptOption.ASKMEANINGOF)
+            textBoxInstance = QuestionDialog(EnumPromptOption.ASKMEANINGOF)
             textBoxInstance.Show()
             # Raise put focus on the window, when it is already open, but lost focus.
             textBoxInstance.Raise()
@@ -135,7 +148,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             return
 
         gui.mainFrame.prePopup()
-        textBoxInstance = TextBox(EnumPromptOption.ASKSENTENCE)
+        textBoxInstance = QuestionDialog(EnumPromptOption.ASKSENTENCE)
         textBoxInstance.Show()
         textBoxInstance.Raise()
         gui.mainFrame.postPopup()

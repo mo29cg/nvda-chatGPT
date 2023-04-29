@@ -34,8 +34,11 @@ def askChatGPT(prompt: str, chatbot: Chatbot = None):
             messenger.emitUiBrowseableMessage(
                 instructions.INSUFFICIENT_QUOTA_ERROR)
         else:
+            # Translators: Message when it encounter an unexpected error, the error itself will be shown below this.
+            unexpectedErrorMessage = _(
+                "Unexpected error occured. Please send the error message below to the add-on author's email address, lcong5946@gmail.com \n\n ")
             messenger.emitUiBrowseableMessage(
-                f"Unexpected error occured. Please send the error message below to the add-on author email address, lcong5946@gmail.com \n\n {str(e)}")
+                unexpectedErrorMessage + str(e))
 
         return
 
