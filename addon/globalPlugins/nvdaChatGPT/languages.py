@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 # Hard-coded because I wanted the capability to set output language to the one different than the language of nvda
 ASK_MEANING_PROMPT_MODELS = [
     "What is the meaning of {}? Respond in Arabic",
