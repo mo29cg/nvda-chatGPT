@@ -114,7 +114,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             OptionsPanel)
 
     @script(
-        # Translators: Nmae of category in input gesture.
+        # Translators: Name of category in input gesture.
         category=_("Ask chatGPT"),
         # Translators: Description of gesture in input gesture.
         description=_("Ask the meaning of a word to chatGPT"),
@@ -139,6 +139,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             startMessage="asking the meaning to chatGPT")
 
     @script(
+        # Translators: Name of category in input gesture.
         category=_("Ask chatGPT"),
         description=_("Ask the sentence to chatGPT"),
         gestures=["kb:NVDA+shift+l"]
