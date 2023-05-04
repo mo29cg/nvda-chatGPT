@@ -31,11 +31,12 @@ import addonHandler
 
 configManager.initConfiguration()
 addonHandler.initTranslation()
+# Translators: Name  of category in setting panel and input gestures.
+category_name = _("Ask chatGPT")
 
 
 class OptionsPanel(gui.SettingsPanel):
-    # Translators: Name  of category in setting panel.
-    title = _("Ask chatGPT")
+    title = category_name
 
     def makeSettings(self, settingsSizer):
         sHelper = gui.guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
@@ -114,8 +115,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             OptionsPanel)
 
     @script(
-        # Translators: Name of category in input gesture.
-        category=_("Ask chatGPT"),
+        category=category_name,
         # Translators: Description of gesture in input gesture.
         description=_("Ask the meaning of a word to chatGPT"),
         gestures=["kb:NVDA+shift+w"]
@@ -139,8 +139,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             startMessage="asking the meaning to chatGPT")
 
     @script(
-        # Translators: Name of category in input gesture.
-        category=_("Ask chatGPT"),
+        category=category_name,
+        # Translators: Description of ask sentence gesture in input gesture.
         description=_("Ask the sentence to chatGPT"),
         gestures=["kb:NVDA+shift+l"]
     )

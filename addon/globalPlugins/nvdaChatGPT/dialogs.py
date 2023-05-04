@@ -102,14 +102,14 @@ class QuestionDialog(wx.Dialog):
 
         buttons = guiHelper.ButtonHelper(wx.HORIZONTAL)
 
-# Translators: Button of a question dialog.
+        # Translators: Button of a question dialog.
         label = _("&Submit")
         submitButton = buttons.addButton(
             self,
             label=label)
         submitButton.Bind(wx.EVT_BUTTON, lambda evt: self.onSubmit())
 
-# Translators: Button for a question dialog.
+        # Translators: Button for a question dialog.
         label = _("&Cancel")
         discardButton = buttons.addButton(
             self,
