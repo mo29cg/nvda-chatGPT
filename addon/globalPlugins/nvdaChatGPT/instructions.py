@@ -2,7 +2,7 @@
 HOW_TO_GET_KEY = _("""
 1. Go to [here](https://platform.openai.com/account/api-keys)
 2. Login (make an account, if you don't have one)
-3. Press the button "Create new secret key‍"
+3. Press the button "Create new secret key"
 4. Go to nvda - preference - settings - askChatGPT, and put the api key.
 
 You get free credits when you create a new chatGPT account, but it expires in several months.
