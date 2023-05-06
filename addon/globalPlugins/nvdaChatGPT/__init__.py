@@ -1,28 +1,18 @@
 import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'site-packages'))
-from .asker import askChatGPT, createAskMeaningPrompt
 from . import languages as languages
 from . import asker as asker
 from .promptOption import EnumPromptOption
 from . import configManager as configManager
-from .myLog import mylog
-from .promptOption import EnumPromptOption
 from .dialogs import QuestionDialog
 import gui
 import wx
-import config
 from scriptHandler import script
 import globalPluginHandler
-from revChatGPT.V3 import Chatbot
 import treeInterceptorHandler
-import ui
 import textInfos
 import api
-import threading
-from openai.error import RateLimitError, AuthenticationError
-from openai.error import ServiceUnavailableError
-import queueHandler
 from . import requestThreader as requestThreader
 from . import instructions as instructions
 from . import messenger as messenger

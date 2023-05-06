@@ -11,11 +11,11 @@ You can set it up from [here](https://platform.openai.com/account/billing/overvi
 It should cost less than $5 a month for normal usage.
 """)
 
-# Translators:Error when text box of api key is empty
 API_KEY_NOT_SET_ERROR = _(
+    # Translators:Error when text box of api key is empty
     "Your api key is not set! You need to do the following.\n {HOW_TO_GET_KEY}").format(HOW_TO_GET_KEY=HOW_TO_GET_KEY)
-# Translators:Error when api key is set but incorrect.
 API_KEY_INCORRECT_ERROR = _(
+    # Translators:Error when api key is set but incorrect.
     "Your api key is incorrect, Check it again! You need to do the following.\n {HOW_TO_GET_KEY}").format(HOW_TO_GET_KEY=HOW_TO_GET_KEY)
 
 # Translators:Error when you run out of credits which you get when creating an account.

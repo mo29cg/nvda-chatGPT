@@ -175,8 +175,8 @@ class QuestionDialog(wx.Dialog):
         if len(conversation) == 11 and configManager.getConfig("dontShowCaution") == False:
             # Translators:  Title of a caution dialog when a conversation is long
             cautionTitle = _("Do you want to continue?")
-            # Translators: Message of a caution dialog when a conversation is long
             cautionMessage = _(
+                # Translators: Message of a caution dialog when a conversation is long
                 "You've already asked 5 questions in a conversation,\nnote that the longer conversation the more your credit (or your real money) consume.\nDo you want to continue?")
             dlg = CautionDialog(self, cautionTitle, cautionMessage)
             result = dlg.ShowModal()

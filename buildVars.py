@@ -20,10 +20,10 @@ addon_info = {
     # Add-on summary, usually the user visible name of the addon.
     # Translators: Summary for this add-on
     # to be shown on installation and add-on information found in Add-ons Manager.
-    "addon_summary": _("askChatGPT"),
+    "addon_summary": _("Ask ChatGPT"),
     # Add-on description
     # Translators: Long description to be shown for this add-on on add-on information from add-ons manager
-    "addon_description": _("""provider an access to chatGPT"""),
+    "addon_description": _("""provide an access to chatGPT"""),
     # version
     "addon_version": "0.6",
     # Author(s)
