@@ -126,7 +126,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
         requestThreader.start_thread(
             asker.askChatGPT, (asker.createAskMeaningPrompt(selectedText),),
-            startMessage="asking the meaning to chatGPT")
+            # Translators: Message when a word is sent to chatGPT
+            startMessage=_("asking the meaning to chatGPT"))
 
     @script(
         category=category_name,
