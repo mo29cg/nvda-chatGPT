@@ -1,3 +1,7 @@
+import addonHandler
+addonHandler.initTranslation()
+
+
 # Translators: Instruction of how to get and set chatGPT api key.
 HOW_TO_GET_KEY = _("""
 1. Go to [here](https://platform.openai.com/account/api-keys)

@@ -1,3 +1,4 @@
+import addonHandler
 from .myLog import mylog
 from . import requestThreader as requestThreader
 from . import messenger as messenger
@@ -10,6 +11,8 @@ import wx
 import gui
 from gui import guiHelper
 import weakref
+
+addonHandler.initTranslation()
 
 
 class CautionDialog(wx.Dialog):

@@ -1,3 +1,4 @@
+import addonHandler
 from . import languages as languages, messenger as messenger, configManager as configManager
 from . import convoManager as convoManager
 from .myLog import mylog
@@ -5,6 +6,8 @@ from revChatGPT.V3 import Chatbot
 from . import utils as utils
 import json
 from . import instructions as instructions
+
+addonHandler.initTranslation()
 
 
 def createAskMeaningPrompt(word):
