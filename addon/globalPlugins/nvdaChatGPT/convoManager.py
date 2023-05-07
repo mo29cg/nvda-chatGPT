@@ -19,7 +19,7 @@ def saveConversation(conversation):
 
 
 def readConversation():
-    with open(convo_file_path, 'r') as file:
+    with open(convo_file_path, 'r', encoding="utf-8") as file:
         try:
             data = json.load(file)
             if "default" in data:
