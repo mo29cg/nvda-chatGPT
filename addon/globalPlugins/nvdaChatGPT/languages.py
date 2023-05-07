@@ -1,3 +1,9 @@
+# -*- coding: UTF-8 -*-
+import addonHandler
+
+addonHandler.initTranslation()
+
+
 # Hard-coded because I wanted the capability to set output language to the one different than the language of nvda
 ASK_MEANING_PROMPT_MODELS = [
     "What is the meaning of {}? Respond in Arabic",
@@ -19,19 +25,34 @@ ASK_MEANING_PROMPT_MODELS = [
 
 
 LANGUAGE_OPTIONS = [
+    # Translators: Output language option.
     _("Arabic"),
+    # Translators: Output language option.
     _("Chinese"),
+    # Translators: Output language option.
     _("Danish"),
+    # Translators: Output language option.
     _("English"),
+    # Translators: Output language option.
     _("French"),
+    # Translators: Output language option.
     _("German"),
+    # Translators: Output language option.
     _("Italian"),
+    # Translators: Output language option.
     _("Japanese"),
+    # Translators: Output language option.
     _("Korean"),
+    # Translators: Output language option.
     _("Portuguese"),
+    # Translators: Output language option.
     _("Russian"),
+    # Translators: Output language option.
     _("Slovak"),
+    # Translators: Output language option.
     _("Spanish"),
+    # Translators: Output language option.
     _("Turkish"),
+    # Translators: Output language option.
     _("Ukrainian"),
 ]

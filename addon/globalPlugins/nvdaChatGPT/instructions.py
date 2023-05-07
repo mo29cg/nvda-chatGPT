@@ -1,8 +1,12 @@
+import addonHandler
+addonHandler.initTranslation()
+
+
 # Translators: Instruction of how to get and set chatGPT api key.
 HOW_TO_GET_KEY = _("""
 1. Go to [here](https://platform.openai.com/account/api-keys)
 2. Login (make an account, if you don't have one)
-3. Press the button "Create new secret key‍"
+3. Press the button "Create new secret key"
 4. Go to nvda - preference - settings - askChatGPT, and put the api key.
 
 You get free credits when you create a new chatGPT account, but it expires in several months.
@@ -11,11 +15,11 @@ You can set it up from [here](https://platform.openai.com/account/billing/overvi
 It should cost less than $5 a month for normal usage.
 """)
 
-# Translators:Error when text box of api key is empty
 API_KEY_NOT_SET_ERROR = _(
+    # Translators:Error when text box of api key is empty
     "Your api key is not set! You need to do the following.\n {HOW_TO_GET_KEY}").format(HOW_TO_GET_KEY=HOW_TO_GET_KEY)
-# Translators:Error when api key is set but incorrect.
 API_KEY_INCORRECT_ERROR = _(
+    # Translators:Error when api key is set but incorrect.
     "Your api key is incorrect, Check it again! You need to do the following.\n {HOW_TO_GET_KEY}").format(HOW_TO_GET_KEY=HOW_TO_GET_KEY)
 
 # Translators:Error when you run out of credits which you get when creating an account.

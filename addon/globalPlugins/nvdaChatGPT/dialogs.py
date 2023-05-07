@@ -1,3 +1,4 @@
+import addonHandler
 from .myLog import mylog
 from . import requestThreader as requestThreader
 from . import messenger as messenger
@@ -10,6 +11,8 @@ import wx
 import gui
 from gui import guiHelper
 import weakref
+
+addonHandler.initTranslation()
 
 
 class CautionDialog(wx.Dialog):
@@ -102,14 +105,14 @@ class QuestionDialog(wx.Dialog):
 
         buttons = guiHelper.ButtonHelper(wx.HORIZONTAL)
 
-# Translators: Button of a question dialog.
+        # Translators: Button of a question dialog.
         label = _("&Submit")
         submitButton = buttons.addButton(
             self,
             label=label)
         submitButton.Bind(wx.EVT_BUTTON, lambda evt: self.onSubmit())
 
-# Translators: Button for a question dialog.
+        # Translators: Button for a question dialog.
         label = _("&Cancel")
         discardButton = buttons.addButton(
             self,
@@ -175,8 +178,8 @@ class QuestionDialog(wx.Dialog):
         if len(conversation) == 11 and configManager.getConfig("dontShowCaution") == False:
             # Translators:  Title of a caution dialog when a conversation is long
             cautionTitle = _("Do you want to continue?")
-            # Translators: Message of a caution dialog when a conversation is long
             cautionMessage = _(
+                # Translators: Message of a caution dialog when a conversation is long
                 "You've already asked 5 questions in a conversation,\nnote that the longer conversation the more your credit (or your real money) consume.\nDo you want to continue?")
             dlg = CautionDialog(self, cautionTitle, cautionMessage)
             result = dlg.ShowModal()

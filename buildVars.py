@@ -20,12 +20,12 @@ addon_info = {
     # Add-on summary, usually the user visible name of the addon.
     # Translators: Summary for this add-on
     # to be shown on installation and add-on information found in Add-ons Manager.
-    "addon_summary": _("askChatGPT"),
+    "addon_summary": _("Ask ChatGPT"),
     # Add-on description
     # Translators: Long description to be shown for this add-on on add-on information from add-ons manager
-    "addon_description": _("""provider an access to chatGPT"""),
+    "addon_description": _("""provide an access to chatGPT"""),
     # version
-    "addon_version": "0.6",
+    "addon_version": "0.7",
     # Author(s)
     "addon_author": "suzukix<lcong5946@gmail.com>",
     # URL for the add-on documentation support
@@ -56,7 +56,7 @@ addon_info = {
 # pythonSources = ["addon/globalPlugins/*.py"]
 # For more information on SCons Glob expressions please take a look at:
 # https://scons.org/doc/production/HTML/scons-user/apd.html
-pythonSources = []
+pythonSources = ["addon/globalPlugins/nvdaChatGPT/*.py"]
 
 # Files that contain strings for translation. Usually your python sources
 i18nSources = pythonSources + ["buildVars.py"]

@@ -1,3 +1,4 @@
+import addonHandler
 from . import languages as languages, messenger as messenger, configManager as configManager
 from . import convoManager as convoManager
 from .myLog import mylog
@@ -5,6 +6,8 @@ from revChatGPT.V3 import Chatbot
 from . import utils as utils
 import json
 from . import instructions as instructions
+
+addonHandler.initTranslation()
 
 
 def createAskMeaningPrompt(word):
@@ -34,8 +37,8 @@ def askChatGPT(prompt: str, chatbot: Chatbot = None):
             messenger.emitUiBrowseableMessage(
                 instructions.INSUFFICIENT_QUOTA_ERROR)
         else:
-            # Translators: Message when it encounter an unexpected error, the error itself will be shown below this.
             unexpectedErrorMessage = _(
+                # Translators: Message when it encounter an unexpected error, the error itself will be shown below this.
                 "Unexpected error occured. Please send the error message below to the add-on author's email address, lcong5946@gmail.com \n\n ")
             messenger.emitUiBrowseableMessage(
                 unexpectedErrorMessage + str(e))
