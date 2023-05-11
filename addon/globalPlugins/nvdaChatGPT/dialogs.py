@@ -80,7 +80,7 @@ class QuestionDialog(wx.Dialog):
             title=title,
             size=wx.Size(500, 500),
             pos=wx.DefaultPosition,
-            style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER | wx.STAY_ON_TOP
+            style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER
         )
 
         self.chatbot = Chatbot(
