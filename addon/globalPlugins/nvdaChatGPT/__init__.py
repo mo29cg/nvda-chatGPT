@@ -57,21 +57,27 @@ class OptionsPanel(gui.SettingsPanel):
         configManager.setConfig("dontShowCaution", self.dontShowCaution.Value)
 
 
-# this way, it can get selected text from anywhere
-
-
 def get_selected_text():
-    obj = api.getFocusObject()
-    treeInterceptor = obj.treeInterceptor
+    # this way, it can get selected text from anywhere
+    focusObj = api.getFocusObject()
+    treeInterceptor = focusObj.treeInterceptor
     if isinstance(treeInterceptor, treeInterceptorHandler.DocumentTreeInterceptor):
-        obj = treeInterceptor
+
+        # try:
+        info = treeInterceptor.makeTextInfo(
+            textInfos.POSITION_SELECTION)
+        # selected text in html text box of firefox is not in treeInterceptor
+        if info.text != "":
+            return info.text.strip()
+        # except:
+        # pass
 
     try:
-        info = obj.makeTextInfo(textInfos.POSITION_SELECTION)
+        info = focusObj.makeTextInfo(textInfos.POSITION_SELECTION)
+        return info.text.strip()
+
     except (RuntimeError, NotImplementedError):
         return ""
-
-    return info.text.strip()
 
 
 def isSelectedTextEmpty(selectedText):
