@@ -1,0 +1,282 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the 'nvdaChatGPT' package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 'nvdaChatGPT' '0.6'\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2023-05-03 19:09+0900\n"
+"PO-Revision-Date: 2023-05-10 18:49+0200\n"
+"Last-Translator: Leonardo Marenda <job@leonardomarenda.it>\n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.3\n"
+
+#. Translators: Name  of category in setting panel.
+#. Translators: Nmae of category in input gesture.
+#: addon\globalPlugins\nvdaChatGPT\__init__.py:38
+#: addon\globalPlugins\nvdaChatGPT\__init__.py:118
+#: addon\globalPlugins\nvdaChatGPT\__init__.py:142
+msgid "Ask chatGPT"
+msgstr "Chiedi a chatGPT"
+
+#. Translators: TextBox for open ai api key.
+#: addon\globalPlugins\nvdaChatGPT\__init__.py:44
+msgid "chatGPT api key:"
+msgstr "Chiave API chatGPT:"
+
+#. Translators: SelectBox for output language when you ask meaning of a word.
+#: addon\globalPlugins\nvdaChatGPT\__init__.py:50
+msgid "Output language of a meaning of words :"
+msgstr "Lingua di output del  significato delle parole:"
+
+#. Translators: Checkbox for if you want a caution or not.
+#: addon\globalPlugins\nvdaChatGPT\__init__.py:57
+msgid "Don't show a caution when a conversation is long"
+msgstr "Non mostrare un avvertimento in caso di conversazione lunga"
+
+#. Translators: Description of gesture in input gesture.
+#: addon\globalPlugins\nvdaChatGPT\__init__.py:120
+msgid "Ask the meaning of a word to chatGPT"
+msgstr "Chiedi il significato di una parola a chatGPT"
+
+#: addon\globalPlugins\nvdaChatGPT\__init__.py:143
+msgid "Ask the sentence to chatGPT"
+msgstr "Chiedi a ChatGPT"
+
+#: addon\globalPlugins\nvdaChatGPT\asker.py:39
+msgid ""
+"Unexpected error occured. Please send the error message below to the add-on "
+"author's email address, lcong5946@gmail.com \n"
+"\n"
+" "
+msgstr ""
+"Si è verificato un errore imprevisto. Invia il messaggio di errore "
+"riportato di seguito all'indirizzo email dell'autore del componente "
+"aggiuntivo, lcong5946@gmail.com \\n\n"
+"\\N"
+
+#. Translators: CheckBox for a caution dialog that asks users to continue
+#: addon\globalPlugins\nvdaChatGPT\dialogs.py:20
+msgid "Don't show again"
+msgstr "Non mostrare più"
+
+#. Translators:Title for a dialog when a user want to ask meaning of a word
+#: addon\globalPlugins\nvdaChatGPT\dialogs.py:68
+msgid "What word do you want to know?"
+msgstr "Di quale parola vuoi sapere il significato?"
+
+#. Translators: Title for a dialog when a user want to ask a sentence
+#: addon\globalPlugins\nvdaChatGPT\dialogs.py:71
+msgid "What do you want to ask?"
+msgstr "Cosa vuoi chiedere?"
+
+#. Translators: Button of a question dialog.
+#: addon\globalPlugins\nvdaChatGPT\dialogs.py:106
+msgid "&Submit"
+msgstr "&Invia"
+
+#. Translators: Button for a question dialog.
+#: addon\globalPlugins\nvdaChatGPT\dialogs.py:113
+msgid "&Cancel"
+msgstr "&Annulla"
+
+#. Translators: Prefix of user's message in the chat log
+#: addon\globalPlugins\nvdaChatGPT\dialogs.py:146
+msgid "You : "
+msgstr "Tu: "
+
+#. Translators:  Title of a caution dialog when a conversation is long
+#: addon\globalPlugins\nvdaChatGPT\dialogs.py:177
+msgid "Do you want to continue?"
+msgstr "Vuoi continuare?"
+
+#: addon\globalPlugins\nvdaChatGPT\dialogs.py:180
+msgid ""
+"You've already asked 5 questions in a conversation,\n"
+"note that the longer conversation the more your credit (or your real money) "
+"consume.\n"
+"Do you want to continue?"
+msgstr ""
+"Hai già fatto 5 domande in una conversazione,\\n\n"
+"nota che più lunga è la conversazione, più i tuoi crediti (o il tuo denaro "
+"reale) vengono consumati.\\n\n"
+"Vuoi continuare?"
+
+#. Translators: Message when a word is sent to chatGPT
+#: addon\globalPlugins\nvdaChatGPT\dialogs.py:197
+msgid "asking the meaning to chatGPT"
+msgstr "Chiedendo il significato a chatGPT"
+
+#. Translators: Message when a word is sent to chatGPT
+#: addon\globalPlugins\nvdaChatGPT\dialogs.py:203
+msgid "asking that to chatGPT"
+msgstr "Chiedendo a chatGPT"
+
+#. Translators: Error message when trying to submit without entering anything.
+#: addon\globalPlugins\nvdaChatGPT\dialogs.py:236
+msgid "The text box is empty, type something!"
+msgstr "La casella di testo è vuota, digita qualcosa!"
+
+#. Translators: Instruction of how to get and set chatGPT api key.
+#: addon\globalPlugins\nvdaChatGPT\instructions.py:2
+msgid ""
+"\n"
+"1. Go to [here](https://platform.openai.com/account/api-keys)\n"
+"2. Login (make an account, if you don't have one)\n"
+"3. Press the button \"Create new secret key\"\n"
+"4. Go to nvda - preference - settings - askChatGPT, and put the api key.\n"
+"\n"
+"You get free credits when you create a new chatGPT account, but it expires "
+"in several months.\n"
+"So when it expires, you need to set up your payment method to keep using "
+"this add-on.\n"
+"You can set it up from [here](https://platform.openai.com/account/billing/"
+"overview)\n"
+"It should cost less than $5 a month for normal usage.\n"
+msgstr ""
+"\n"
+"1. Vai [qui](https://platform.openai.com/account/api-keys)\n"
+"2. Effettua l'accesso (crea un account se non ne sei in possesso)\n"
+"3. Premi il pulsante \"Create new secret key\"\n"
+"4. Vai nel menu di nvda - preferenze - impostazioni - askChatGPT ed "
+"inserisci la chiave API.\n"
+"\n"
+"Quando crei un account chatGPT ottieni dei crediti, ma essi dopo diversi "
+"mesi scadono.\n"
+"Quando scadono, quindi, devi impostare il tuo metodo di pagamento per "
+"continuare ad utilizzare questo componente aggiuntivo.\n"
+"Puoi impostarlo da [qui](https://platform.openai.com/account/billing/"
+"overview)\n"
+"Per un uso normale, dovrebbe costare meno di $5 al mese.\n"
+
+#: addon\globalPlugins\nvdaChatGPT\instructions.py:16
+#, python-brace-format
+msgid ""
+"Your api key is not set! You need to do the following.\n"
+" {HOW_TO_GET_KEY}"
+msgstr ""
+"La tua chiave API non è impostata! Devi fare quanto segue.\\n\n"
+" {HOW_TO_GET_KEY}"
+
+#: addon\globalPlugins\nvdaChatGPT\instructions.py:19
+#, python-brace-format
+msgid ""
+"Your api key is incorrect, Check it again! You need to do the following.\n"
+" {HOW_TO_GET_KEY}"
+msgstr ""
+"La tua chiave API non è corretta, controlla di nuovo! Devi fare quanto "
+"segue.\\n\n"
+" {HOW_TO_GET_KEY}"
+
+#. Translators:Error when you run out of credits which you get when creating an account.
+#: addon\globalPlugins\nvdaChatGPT\instructions.py:22
+msgid ""
+"You ran out of your free credits, or your credits expired! Now you have to "
+"start paying. Below is how you set up your payment method.  \n"
+"\n"
+"1. Go to [here](https://platform.openai.com/account/billing/overview)\n"
+"2. Press \"Set up payment method\" button.\n"
+"\n"
+"The cost should be less than $3 a month for normal usage.  \n"
+"But I highly reccomend set usage limit from [here](https://platform.openai."
+"com/account/billing/limits)  \n"
+"\n"
+"Also, if you are doing well financially, consider donating to this add-on's "
+"author.  \n"
+"You can send your love from [here](https://paypal.me/satoshi26).  \n"
+"I would really appreciate it, and it would make my day!  \n"
+msgstr ""
+"Hai esaurito i tuoi crediti gratuiti o essi sono scaduti! Ora devi iniziare "
+"a pagare. Di seguito è riportato come impostare il metodo di pagamento.  \n"
+"\n"
+"1. Vai [qui](https://platform.openai.com/account/billing/overview)\n"
+"2. Premi il pulsante \"Set up payment method\".\n"
+"\n"
+"Dovrebbe costare meno di $3 al mese per un uso normale.  \n"
+"Consiglio però vivamente di impostare i limiti di utilizzo da [qui](https://"
+"platform.openai.com/account/billing/limits)  \n"
+"\n"
+"Inoltre, se ti trovi in una buona situazione finanziaria, considera di fare "
+"una donazione all'autore di questo add-on..  \n"
+"Puoi inviarli da [qui](https://paypal.me/satoshi26).  \n"
+"Lo apprezzerei davvero, e mi renderebbe felice!  \n"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:23
+msgid "Arabic"
+msgstr "Arabo"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:24
+msgid "Chinese"
+msgstr "Cinese"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:25
+msgid "Danish"
+msgstr "Danese"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:26
+msgid "English"
+msgstr "Inglese"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:27
+msgid "French"
+msgstr "Francese"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:28
+msgid "German"
+msgstr "Tedesco"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:29
+msgid "Italian"
+msgstr "Italiano"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:30
+msgid "Japanese"
+msgstr "Giapponese"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:31
+msgid "Korean"
+msgstr "Coreano"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:32
+msgid "Portuguese"
+msgstr "Portoghese"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:33
+msgid "Russian"
+msgstr "Russo"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:34
+msgid "Slovak"
+msgstr "Slovacco"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:35
+msgid "Spanish"
+msgstr "Spagnolo"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:36
+msgid "Turkish"
+msgstr "Turco"
+
+#: addon\globalPlugins\nvdaChatGPT\languages.py:37
+msgid "Ukrainian"
+msgstr "Ucraino"
+
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on
+#. to be shown on installation and add-on information found in Add-ons Manager.
+#: buildVars.py:23
+msgid "askChatGPT"
+msgstr "askChatGPT"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:26
+msgid "provider an access to chatGPT"
+msgstr "Fornisce un accesso a ChatGPT"
