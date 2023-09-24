@@ -7,6 +7,7 @@ def initConfiguration():
     confspec = {
         "apiKey": "string( default='')",
         "outputLanguageIndex": "integer( default=3, min=0, max=15)",
+        "gptVersionSentenceIndex": "integer( default=0, min=0, max=3)",
         "dontShowCaution": "boolean( default=False)",
     }
     config.conf.spec[module] = confspec

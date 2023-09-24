@@ -1,5 +1,6 @@
 import threading
-debug = False
+
+debug = True
 
 
 if debug:
@@ -11,6 +12,6 @@ if debug:
 
 def mylog(s):
     with LOG_MUTEX:
-        f = open(LOG_FILE_NAME, "a", encoding='utf-8')
+        f = open(LOG_FILE_NAME, "a", encoding="utf-8")
         print(s, file=f)
         f.close()

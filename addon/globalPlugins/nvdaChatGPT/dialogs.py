@@ -1,4 +1,4 @@
-import addonHandler
+from .languages import ENGINE_OPTIONS
 from .myLog import mylog
 from . import requestThreader as requestThreader
 from . import messenger as messenger
@@ -11,8 +11,9 @@ import wx
 import gui
 from gui import guiHelper
 import weakref
+from .utils import initTranslationWithErrorHandling
 
-addonHandler.initTranslation()
+initTranslationWithErrorHandling()
 
 
 class CautionDialog(wx.Dialog):
@@ -21,11 +22,10 @@ class CautionDialog(wx.Dialog):
 
         # Translators: CheckBox for a caution dialog that asks users to continue
         label = _("Don't show again")
-        self.dont_ask_again = wx.CheckBox(
-            self, label=label)
+        self.dont_ask_again = wx.CheckBox(self, label=label)
         self.message = wx.StaticText(self, label=message)
-        yesButton = wx.Button(self, wx.ID_YES, label='Yes')
-        noButton = wx.Button(self, wx.ID_NO, label='No')
+        yesButton = wx.Button(self, wx.ID_YES, label="Yes")
+        noButton = wx.Button(self, wx.ID_NO, label="No")
 
         yesButton.Bind(wx.EVT_BUTTON, self.onYes)
         noButton.Bind(wx.EVT_BUTTON, self.onNo)
@@ -50,7 +50,8 @@ class QuestionDialog(wx.Dialog):
     controlPressed = False
 
     # Assigning a function becaues we need to call to get content of weak ref.
-    def instance(): return None
+    def instance():
+        return None
 
     def __new__(cls, *args, **kwargs):
         instance = QuestionDialog.instance()
@@ -80,11 +81,13 @@ class QuestionDialog(wx.Dialog):
             title=title,
             size=wx.Size(500, 500),
             pos=wx.DefaultPosition,
-            style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER
+            style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER,
         )
 
         self.chatbot = Chatbot(
-            api_key=configManager.getConfig("apiKey"),)
+            api_key=configManager.getConfig("apiKey"),
+            engine=ENGINE_OPTIONS[configManager.getConfig("gptVersionSentenceIndex")],
+        )
 
         mainSizer = wx.BoxSizer(wx.VERTICAL)
         sHelper = guiHelper.BoxSizerHelper(self, wx.VERTICAL)
@@ -94,10 +97,8 @@ class QuestionDialog(wx.Dialog):
         if promptOption == EnumPromptOption.ASKSENTENCE:
             self.initChatLogList()
 
-        self.new_sizer.AddSpacer(
-            guiHelper.SPACE_BETWEEN_ASSOCIATED_CONTROL_VERTICAL)
-        self.noteEditArea = wx.TextCtrl(
-            self, style=wx.TE_RICH2 | wx.TE_MULTILINE)
+        self.new_sizer.AddSpacer(guiHelper.SPACE_BETWEEN_ASSOCIATED_CONTROL_VERTICAL)
+        self.noteEditArea = wx.TextCtrl(self, style=wx.TE_RICH2 | wx.TE_MULTILINE)
         self.new_sizer.Add(self.noteEditArea, proportion=1, flag=wx.EXPAND)
         sHelper.addItem(self.new_sizer, proportion=1, flag=wx.EXPAND)
 
@@ -107,17 +108,12 @@ class QuestionDialog(wx.Dialog):
 
         # Translators: Button of a question dialog.
         label = _("&Submit")
-        submitButton = buttons.addButton(
-            self,
-            label=label)
+        submitButton = buttons.addButton(self, label=label)
         submitButton.Bind(wx.EVT_BUTTON, lambda evt: self.onSubmit())
 
         # Translators: Button for a question dialog.
         label = _("&Cancel")
-        discardButton = buttons.addButton(
-            self,
-            id=wx.ID_CLOSE,
-            label=label)
+        discardButton = buttons.addButton(self, id=wx.ID_CLOSE, label=label)
         discardButton.Bind(wx.EVT_BUTTON, lambda evt: self.Close())
         sHelper.addDialogDismissButtons(buttons, True)
         mainSizer.Add(sHelper.sizer, proportion=1, flag=wx.EXPAND)
@@ -159,7 +155,6 @@ class QuestionDialog(wx.Dialog):
         self.list_box.SetItems(items)
 
     def conversation_flow(self, prompt: str):
-
         conversation = convoManager.readConversation()
 
         if len(conversation) != 0:
@@ -167,20 +162,23 @@ class QuestionDialog(wx.Dialog):
 
         asker.askChatGPT(prompt, chatbot=self.chatbot)
 
-        convoManager.saveConversation(
-            {"default": self.chatbot.conversation})
+        convoManager.saveConversation({"default": self.chatbot.conversation})
         self.refreshChatLog()
 
     def confirm_continue_if_conversation_is_long(self) -> bool:
         conversation = convoManager.readConversation()
 
         # 11 because it has one default message
-        if len(conversation) == 11 and configManager.getConfig("dontShowCaution") == False:
+        if (
+            len(conversation) == 11
+            and configManager.getConfig("dontShowCaution") == False
+        ):
             # Translators:  Title of a caution dialog when a conversation is long
             cautionTitle = _("Do you want to continue?")
             cautionMessage = _(
                 # Translators: Message of a caution dialog when a conversation is long
-                "You've already asked 5 questions in a conversation,\nnote that the longer conversation the more your credit (or your real money) consume.\nDo you want to continue?")
+                "You've already asked 5 questions in a conversation,\nnote that the longer conversation the more your credit (or your real money) consume.\nDo you want to continue?"
+            )
             dlg = CautionDialog(self, cautionTitle, cautionMessage)
             result = dlg.ShowModal()
             dontShowAgainValue = dlg.dont_ask_again.Value
@@ -194,18 +192,20 @@ class QuestionDialog(wx.Dialog):
         return True
 
     def request_chatGPT(self, input: str):
-
         if self.promptOption == EnumPromptOption.ASKMEANINGOF:
             # Translators: Message when a word is sent to chatGPT
             startMessage = _("asking the meaning to chatGPT")
             requestThreader.start_thread(
-                target=asker.askChatGPT, args=(asker.createAskMeaningPrompt(
-                    input),), startMessage=startMessage)
+                target=asker.askChatGPT,
+                args=(asker.createAskMeaningPrompt(input),),
+                startMessage=startMessage,
+            )
         elif self.promptOption == EnumPromptOption.ASKSENTENCE:
             # Translators: Message when a word is sent to chatGPT
             startMessage = _("asking that to chatGPT")
             requestThreader.start_thread(
-                target=self.conversation_flow, args=(input, ), startMessage=startMessage)
+                target=self.conversation_flow, args=(input,), startMessage=startMessage
+            )
 
     def on_list_box_focus(self, event):
         # Always set focus to the last element, when list_box gets focus
@@ -219,8 +219,7 @@ class QuestionDialog(wx.Dialog):
             if self.list_box.GetCount() == 0:
                 return
 
-            selected_item = self.list_box.GetString(
-                self.list_box.GetSelection())
+            selected_item = self.list_box.GetString(self.list_box.GetSelection())
 
             parts = selected_item.split(":", 1)
 
@@ -234,7 +233,7 @@ class QuestionDialog(wx.Dialog):
 
     def onSubmit(self):
         userInput = self.noteEditArea.GetValue()
-        if userInput .strip() == "":
+        if userInput.strip() == "":
             # Translators: Error message when trying to submit without entering anything.
             errorMessage = _("The text box is empty, type something!")
             messenger.emitUiMessage(errorMessage)
@@ -252,7 +251,6 @@ class QuestionDialog(wx.Dialog):
             self._clean()
 
     def onKeyDown(self, event):
-
         keycode = event.GetKeyCode()
 
         if keycode == wx.WXK_CONTROL:
@@ -265,7 +263,6 @@ class QuestionDialog(wx.Dialog):
         event.Skip()
 
     def onKeyUp(self, event):
-
         keycode = event.GetKeyCode()
 
         if keycode == wx.WXK_CONTROL:

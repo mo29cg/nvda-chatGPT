@@ -25,7 +25,7 @@ addon_info = {
     # Translators: Long description to be shown for this add-on on add-on information from add-ons manager
     "addon_description": _("""provide an access to chatGPT"""),
     # version
-    "addon_version": "0.8",
+    "addon_version": "0.9",
     # Author(s)
     "addon_author": "suzukix<lcong5946@gmail.com>",
     # URL for the add-on documentation support

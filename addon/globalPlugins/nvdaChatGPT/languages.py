@@ -1,8 +1,7 @@
 # -*- coding: UTF-8 -*-
-import addonHandler
+from .utils import initTranslationWithErrorHandling
 
-addonHandler.initTranslation()
-
+initTranslationWithErrorHandling()
 
 # Hard-coded because I wanted the capability to set output language to the one different than the language of nvda
 ASK_MEANING_PROMPT_MODELS = [
@@ -55,4 +54,11 @@ LANGUAGE_OPTIONS = [
     _("Turkish"),
     # Translators: Output language option.
     _("Ukrainian"),
+]
+
+ENGINE_OPTIONS = [
+    "gpt-3.5-turbo",
+    "gpt-4",
+    "gpt-4-0314",
+    "gpt-4-0613",
 ]
