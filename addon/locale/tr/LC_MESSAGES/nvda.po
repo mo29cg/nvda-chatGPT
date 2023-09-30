@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Chat GPT'ye Sor 0.7\n"
-"POT-Creation-Date: 2023-05-07 14:33+0300\n"
-"PO-Revision-Date: 2023-05-07 14:56+0300\n"
+"POT-Creation-Date: 2023-09-24 15:31+0300\n"
+"PO-Revision-Date: 2023-09-24 15:33+0300\n"
 "Last-Translator: Umut KORKMAZ <umutkork@gmail.com>\n"
 "Language-Team: Umut KORKMAZ <umutkork@gmail.com>\n"
 "Language: tr_TR\n"
@@ -10,37 +10,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 "X-Poedit-Basepath: ../../../globalPlugins\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: nvdaChatGPT/__init__.py:25
+#: nvdaChatGPT/__init__.py:28
 msgid "Ask chatGPT"
 msgstr "ChatGPT'ye sor"
 
-#: nvdaChatGPT/__init__.py:35
+#: nvdaChatGPT/__init__.py:38
 msgid "chatGPT api key:"
 msgstr "chatGPT api anahtarı:"
 
-#: nvdaChatGPT/__init__.py:41
-#| msgid "Output language of a meaning of wordsf :"
+#: nvdaChatGPT/__init__.py:43
 msgid "Output language of a meaning of words :"
 msgstr "Kelime anlamının gösterileceği dil:"
 
-#: nvdaChatGPT/__init__.py:48
+#: nvdaChatGPT/__init__.py:51
+msgid "Chat gpt version that respond to a conversation :"
+msgstr "Bir konuşmaya yanıt veren sohbet gpt sürümü :"
+
+#: nvdaChatGPT/__init__.py:60
 msgid "Don't show a caution when a conversation is long"
 msgstr "Bir konuşma uzun sürdüğünde uyarı gösterme"
 
-#: nvdaChatGPT/__init__.py:110
+#: nvdaChatGPT/__init__.py:122
 msgid "Ask the meaning of a word to chatGPT"
 msgstr "Tek bir kelimenin anlamını ChatGPT'ye sorar"
 
-#: nvdaChatGPT/__init__.py:130 nvdaChatGPT/dialogs.py:200
-#| msgid "Ask the meaning of a word to chatGPT"
+#: nvdaChatGPT/__init__.py:143 nvdaChatGPT/dialogs.py:197
 msgid "asking the meaning to chatGPT"
 msgstr "anlamını ChatGPT'ye sorar"
 
-#: nvdaChatGPT/__init__.py:135
+#: nvdaChatGPT/__init__.py:149
 msgid "Ask the sentence to chatGPT"
 msgstr "Cümle anlamını ChatGPT'ye sorar"
 
@@ -56,36 +58,35 @@ msgstr ""
 "\n"
 " "
 
-#: nvdaChatGPT/dialogs.py:23
+#: nvdaChatGPT/dialogs.py:24
 msgid "Don't show again"
 msgstr "Tekrar gösterme"
 
-#: nvdaChatGPT/dialogs.py:71
+#: nvdaChatGPT/dialogs.py:72
 msgid "What word do you want to know?"
 msgstr "Hangi kelimeyi öğrenmek istiyorsun?"
 
-#: nvdaChatGPT/dialogs.py:74
+#: nvdaChatGPT/dialogs.py:75
 msgid "What do you want to ask?"
 msgstr "Ne sormak istiyorsun?"
 
-#: nvdaChatGPT/dialogs.py:109
+#: nvdaChatGPT/dialogs.py:110
 msgid "&Submit"
 msgstr "&Gönder"
 
-#: nvdaChatGPT/dialogs.py:116
+#: nvdaChatGPT/dialogs.py:115
 msgid "&Cancel"
 msgstr "İpta&l"
 
-#: nvdaChatGPT/dialogs.py:149
+#: nvdaChatGPT/dialogs.py:145
 msgid "You : "
 msgstr "Sen : "
 
-#: nvdaChatGPT/dialogs.py:180
-#| msgid "What do you want to ask?"
+#: nvdaChatGPT/dialogs.py:177
 msgid "Do you want to continue?"
 msgstr "Devam etmek istiyor musunuz?"
 
-#: nvdaChatGPT/dialogs.py:183
+#: nvdaChatGPT/dialogs.py:180
 msgid ""
 "You've already asked 5 questions in a conversation,\n"
 "note that the longer conversation the more your credit (or your real money) "
@@ -97,16 +98,15 @@ msgstr ""
 "fazla tüketileceğini unutmayın.\n"
 "Devam etmek istiyor musunuz?"
 
-#: nvdaChatGPT/dialogs.py:206
-#| msgid "Ask the sentence to chatGPT"
+#: nvdaChatGPT/dialogs.py:205
 msgid "asking that to chatGPT"
 msgstr "bunu ChatGPT'ye sor"
 
-#: nvdaChatGPT/dialogs.py:239
+#: nvdaChatGPT/dialogs.py:238
 msgid "The text box is empty, type something!"
 msgstr "Metin kutusu boş, bir şeyler yazın!"
 
-#: nvdaChatGPT/instructions.py:6
+#: nvdaChatGPT/instructions.py:9
 msgid ""
 "\n"
 "1. Go to [here](https://platform.openai.com/account/api-keys)\n"
@@ -137,7 +137,7 @@ msgstr ""
 "ayarlayabilirsiniz\n"
 "Normal kullanım için ayda 5 dolardan daha az maliyetli olmalıdır.\n"
 
-#: nvdaChatGPT/instructions.py:20
+#: nvdaChatGPT/instructions.py:24
 #, python-brace-format
 msgid ""
 "Your api key is not set! You need to do the following.\n"
@@ -146,7 +146,7 @@ msgstr ""
 "API anahtarınız ayarlanmamış! Aşağıdakileri yapmanız gerekir.\n"
 " {HOW_TO_GET_KEY}"
 
-#: nvdaChatGPT/instructions.py:23
+#: nvdaChatGPT/instructions.py:28
 #, python-brace-format
 msgid ""
 "Your api key is incorrect, Check it again! You need to do the following.\n"
@@ -156,7 +156,7 @@ msgstr ""
 "gerekir.\n"
 " {HOW_TO_GET_KEY}"
 
-#: nvdaChatGPT/instructions.py:26
+#: nvdaChatGPT/instructions.py:33
 msgid ""
 "You ran out of your free credits, or your credits expired! Now you have to "
 "start paying. Below is how you set up your payment method.  \n"
@@ -181,71 +181,71 @@ msgstr ""
 "2. \"Ödeme yöntemini ayarla\" düğmesine basın.\n"
 "\n"
 "Normal kullanım için maliyet ayda 3 dolardan az olmalıdır.  \n"
-"[Ancak buradan](https://platform.openai.com/account/billing/limits) "
-"kullanım sınırı belirlemenizi önemle tavsiye ederim.  \n"
+"[Ancak buradan](https://platform.openai.com/account/billing/limits) kullanım "
+"sınırı belirlemenizi önemle tavsiye ederim.  \n"
 "\n"
-"Ayrıca, mali açıdan iyi durumdaysanız, bu eklentinin geliştiricisine "
-"bağışta bulunmayı düşünebilirsiniz.  \n"
+"Ayrıca, mali açıdan iyi durumdaysanız, bu eklentinin geliştiricisine bağışta "
+"bulunmayı düşünebilirsiniz.  \n"
 "[buradan sevgilerinizi iletebilirsiniz](https://paypal.me/satoshi26).  \n"
 "Gerçekten minnettar olurum ve bu benim günümü güzelleştirir!  \n"
 
-#: nvdaChatGPT/languages.py:29
+#: nvdaChatGPT/languages.py:28
 msgid "Arabic"
 msgstr "Arapça"
 
-#: nvdaChatGPT/languages.py:31
+#: nvdaChatGPT/languages.py:30
 msgid "Chinese"
 msgstr "Çince"
 
-#: nvdaChatGPT/languages.py:33
+#: nvdaChatGPT/languages.py:32
 msgid "Danish"
 msgstr "Danca"
 
-#: nvdaChatGPT/languages.py:35
+#: nvdaChatGPT/languages.py:34
 msgid "English"
 msgstr "İngilizce"
 
-#: nvdaChatGPT/languages.py:37
+#: nvdaChatGPT/languages.py:36
 msgid "French"
 msgstr "Fransızca"
 
-#: nvdaChatGPT/languages.py:39
+#: nvdaChatGPT/languages.py:38
 msgid "German"
 msgstr "Almanca"
 
-#: nvdaChatGPT/languages.py:41
+#: nvdaChatGPT/languages.py:40
 msgid "Italian"
 msgstr "İtalyanca"
 
-#: nvdaChatGPT/languages.py:43
+#: nvdaChatGPT/languages.py:42
 msgid "Japanese"
 msgstr "Japonca"
 
-#: nvdaChatGPT/languages.py:45
+#: nvdaChatGPT/languages.py:44
 msgid "Korean"
 msgstr "Korece"
 
-#: nvdaChatGPT/languages.py:47
+#: nvdaChatGPT/languages.py:46
 msgid "Portuguese"
 msgstr "Portekizce"
 
-#: nvdaChatGPT/languages.py:49
+#: nvdaChatGPT/languages.py:48
 msgid "Russian"
 msgstr "Rusça"
 
-#: nvdaChatGPT/languages.py:51
+#: nvdaChatGPT/languages.py:50
 msgid "Slovak"
 msgstr "Slovakça"
 
-#: nvdaChatGPT/languages.py:53
+#: nvdaChatGPT/languages.py:52
 msgid "Spanish"
 msgstr "İspanyolca"
 
-#: nvdaChatGPT/languages.py:55
+#: nvdaChatGPT/languages.py:54
 msgid "Turkish"
 msgstr "Türkçe"
 
-#: nvdaChatGPT/languages.py:57
+#: nvdaChatGPT/languages.py:56
 msgid "Ukrainian"
 msgstr "Ukraynaca"
 
