@@ -4,15 +4,18 @@ from . import (
     messenger as messenger,
     configManager as configManager,
 )
-from . import convoManager as convoManager
-from .myLog import mylog
 from revChatGPT.V3 import Chatbot
 from . import utils as utils
 import json
 from . import instructions as instructions
-from .utils import initTranslationWithErrorHandling
+from logHandler import log
 
-initTranslationWithErrorHandling()
+try:
+    addonHandler.initTranslation()
+except addonHandler.AddonError:
+    log.warning(
+        "Unable to initialise translations. This may be because the addon is running from NVDA scratchpad."
+    )
 
 
 def createAskMeaningPrompt(word):
@@ -22,7 +25,7 @@ def createAskMeaningPrompt(word):
 
 
 def askChatGPT(prompt: str, chatbot: Chatbot = None):
-    if chatbot == None:
+    if chatbot is None:
         chatbot = Chatbot(api_key=configManager.getConfig("apiKey"))
     try:
         response = chatbot.ask(prompt)
@@ -33,13 +36,17 @@ def askChatGPT(prompt: str, chatbot: Chatbot = None):
         errorJson = json.loads(errorText)
         errorType = errorJson["error"]["type"]
         if errorType == "invalid_request_error":
-            messenger.emitUiBrowseableMessage(instructions.API_KEY_INCORRECT_ERROR)
+            messenger.emitUiBrowseableMessage(
+                instructions.API_KEY_INCORRECT_ERROR)
         elif errorType == "insufficient_quota":
-            messenger.emitUiBrowseableMessage(instructions.INSUFFICIENT_QUOTA_ERROR)
+            messenger.emitUiBrowseableMessage(
+                instructions.INSUFFICIENT_QUOTA_ERROR)
         else:
             unexpectedErrorMessage = _(
-                # Translators: Message when it encounter an unexpected error, the error itself will be shown below this.
-                "Unexpected error occured. Please send the error message below to the add-on author's email address, lcong5946@gmail.com \n\n "
+                # Translators: Message when it encounter an unexpected error, the error itself will be shown
+                #  below this.
+                "Unexpected error occured. Please send the error message below to the add-on "
+                "author's email address, lcong5946@gmail.com \n\n "
             )
             messenger.emitUiBrowseableMessage(unexpectedErrorMessage + str(e))
 

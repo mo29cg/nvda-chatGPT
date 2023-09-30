@@ -1,7 +1,6 @@
 import queueHandler
 import ui
 import markdown2
-from .myLog import mylog
 
 
 def emitUiBrowseableMessage(message):

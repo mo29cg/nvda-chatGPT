@@ -18,11 +18,15 @@ from . import requestThreader as requestThreader
 from . import instructions as instructions
 from . import messenger as messenger
 import addonHandler
-from .utils import initTranslationWithErrorHandling
-
+from logHandler import log
 
 configManager.initConfiguration()
-initTranslationWithErrorHandling()
+try:
+    addonHandler.initTranslation()
+except addonHandler.AddonError:
+    log.warning(
+        "Unable to initialise translations. This may be because the addon is running from NVDA scratchpad."
+    )
 
 # Translators: Name  of category in setting panel and input gestures.
 category_name = _("Ask chatGPT")
@@ -44,9 +48,11 @@ class OptionsPanel(gui.SettingsPanel):
         self.outputLanguage = sHelper.addLabeledControl(
             label, wx.Choice, choices=languages.LANGUAGE_OPTIONS
         )
-        self.outputLanguage.Selection = configManager.getConfig("outputLanguageIndex")
+        self.outputLanguage.Selection = configManager.getConfig(
+            "outputLanguageIndex")
 
-        # making it configurable only when asking a sentence, because when asking a meaning of words, the quality doesn't really change
+        # making it configurable only when asking a sentence, because when asking a meaning of words,
+        # the quality doesn't really change
         # Translators: SelectBox of chat GPT version when user ask a sentence
         label = _("Chat gpt version that respond to a conversation :")
         self.gptVersionSentence = sHelper.addLabeledControl(
@@ -63,7 +69,8 @@ class OptionsPanel(gui.SettingsPanel):
 
     def onSave(self):
         configManager.setConfig("apiKey", self.apiKey.Value)
-        configManager.setConfig("outputLanguageIndex", self.outputLanguage.Selection)
+        configManager.setConfig("outputLanguageIndex",
+                                self.outputLanguage.Selection)
         configManager.setConfig(
             "gptVersionSentenceIndex", self.gptVersionSentence.Selection
         )
@@ -110,11 +117,13 @@ def isApiKeyEmpty():
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     def __init__(self):
         super(GlobalPlugin, self).__init__()
-        gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(OptionsPanel)
+        gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(
+            OptionsPanel)
 
     def terminate(self):
         super(GlobalPlugin, self).terminate()
-        gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(OptionsPanel)
+        gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(
+            OptionsPanel)
 
     @script(
         category=category_name,

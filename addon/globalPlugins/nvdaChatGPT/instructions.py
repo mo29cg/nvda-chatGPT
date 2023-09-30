@@ -1,7 +1,13 @@
 import addonHandler
-from .utils import initTranslationWithErrorHandling
+from logHandler import log
 
-initTranslationWithErrorHandling()
+
+try:
+    addonHandler.initTranslation()
+except addonHandler.AddonError:
+    log.warning(
+        "Unable to initialise translations. This may be because the addon is running from NVDA scratchpad."
+    )
 
 
 # Translators: Instruction of how to get and set chatGPT api key.
@@ -30,16 +36,13 @@ API_KEY_INCORRECT_ERROR = _(
 
 # Translators:Error when you run out of credits which you get when creating an account.
 INSUFFICIENT_QUOTA_ERROR = _(
-    """You ran out of your free credits, or your credits expired! Now you have to start paying. Below is how you set up your payment method.  
+    """You ran out of your free credits, or your credits expired! Now you have to start paying. Below is how
+you set up your payment method."
 
 1. Go to [here](https://platform.openai.com/account/billing/overview)
 2. Press "Set up payment method" button.
 
-The cost should be less than $3 a month for normal usage.  
-But I highly reccomend set usage limit from [here](https://platform.openai.com/account/billing/limits)  
-
-Also, if you are doing well financially, consider donating to this add-on's author.  
-You can send your love from [here](https://paypal.me/satoshi26).  
-I would really appreciate it, and it would make my day!  
+The cost should be less than $3 a month for normal usage.
+But I highly reccomend set usage limit from [here](https://platform.openai.com/account/billing/limits)
 """
 )

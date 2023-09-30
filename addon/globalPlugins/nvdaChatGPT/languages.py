@@ -1,9 +1,16 @@
 # -*- coding: UTF-8 -*-
-from .utils import initTranslationWithErrorHandling
+from logHandler import log
+import addonHandler
 
-initTranslationWithErrorHandling()
+try:
+    addonHandler.initTranslation()
+except addonHandler.AddonError:
+    log.warning(
+        "Unable to initialise translations. This may be because the addon is running from NVDA scratchpad."
+    )
 
-# Hard-coded because I wanted the capability to set output language to the one different than the language of nvda
+# Hard-coded because I wanted the capability to set output language
+# to the one different than the language of nvda
 ASK_MEANING_PROMPT_MODELS = [
     "What is the meaning of {}? Respond in Arabic",
     "What is the meaning of {}? Respond in Chinese",

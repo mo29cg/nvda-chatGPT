@@ -1,3 +1,0 @@
-[flake8]
-; disable "line too long" errors and "module import not at the top of file"
-ignore = E501, E402

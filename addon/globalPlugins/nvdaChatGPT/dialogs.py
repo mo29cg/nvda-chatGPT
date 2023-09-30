@@ -1,5 +1,4 @@
 from .languages import ENGINE_OPTIONS
-from .myLog import mylog
 from . import requestThreader as requestThreader
 from . import messenger as messenger
 from . import asker as asker
@@ -11,9 +10,16 @@ import wx
 import gui
 from gui import guiHelper
 import weakref
-from .utils import initTranslationWithErrorHandling
+from logHandler import log
+import addonHandler
 
-initTranslationWithErrorHandling()
+
+try:
+    addonHandler.initTranslation()
+except addonHandler.AddonError:
+    log.warning(
+        "Unable to initialise translations. This may be because the addon is running from NVDA scratchpad."
+    )
 
 
 class CautionDialog(wx.Dialog):
@@ -171,13 +177,14 @@ class QuestionDialog(wx.Dialog):
         # 11 because it has one default message
         if (
             len(conversation) == 11
-            and configManager.getConfig("dontShowCaution") == False
+            and configManager.getConfig("dontShowCaution") is False
         ):
             # Translators:  Title of a caution dialog when a conversation is long
             cautionTitle = _("Do you want to continue?")
             cautionMessage = _(
                 # Translators: Message of a caution dialog when a conversation is long
-                "You've already asked 5 questions in a conversation,\nnote that the longer conversation the more your credit (or your real money) consume.\nDo you want to continue?"
+                "You've already asked 5 questions in a conversation,\nnote that the longer conversation the"
+                "more your credit (or your real money) consume.\nDo you want to continue?"
             )
             dlg = CautionDialog(self, cautionTitle, cautionMessage)
             result = dlg.ShowModal()
@@ -185,7 +192,7 @@ class QuestionDialog(wx.Dialog):
             dlg.Destroy()
 
             if result == wx.ID_YES:
-                if dontShowAgainValue == True:
+                if dontShowAgainValue is True:
                     configManager.setConfig("dontShowCaution", True)
             else:
                 return False
@@ -239,9 +246,10 @@ class QuestionDialog(wx.Dialog):
             messenger.emitUiMessage(errorMessage)
             return
 
-        # Doing both self.noteEditArea.Clear() and self._clean() at the same time causes an error which I don't understand
+        # Doing both self.noteEditArea.Clear() and self._clean() at the same time causes an error which
+        # I don't understand
         if self.promptOption == EnumPromptOption.ASKSENTENCE:
-            if self.confirm_continue_if_conversation_is_long() != True:
+            if self.confirm_continue_if_conversation_is_long() is not True:
                 return
             self.noteEditArea.Clear()
 
