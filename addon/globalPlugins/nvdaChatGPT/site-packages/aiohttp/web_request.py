@@ -13,6 +13,7 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Dict,
+    Final,
     Iterator,
     Mapping,
     MutableMapping,
@@ -25,12 +26,19 @@ from typing import (
 from urllib.parse import parse_qsl
 
 import attr
-from multidict import CIMultiDict, CIMultiDictProxy, MultiDict, MultiDictProxy
+from multidict import (
+    CIMultiDict,
+    CIMultiDictProxy,
+    MultiDict,
+    MultiDictProxy,
+    MultiMapping,
+)
 from yarl import URL
 
 from . import hdrs
 from .abc import AbstractStreamWriter
 from .helpers import (
+    _SENTINEL,
     DEBUG,
     ETAG_ANY,
     LIST_QUOTED_ETAG_RE,
@@ -40,6 +48,7 @@ from .helpers import (
     parse_http_date,
     reify,
     sentinel,
+    set_exception,
 )
 from .http_parser import RawRequestMessage
 from .http_writer import HttpVersion
@@ -47,7 +56,6 @@ from .multipart import BodyPartReader, MultipartReader
 from .streams import EmptyStreamReader, StreamReader
 from .typedefs import (
     DEFAULT_JSON_DECODER,
-    Final,
     JSONDecoder,
     LooseHeaders,
     RawHeaders,
@@ -59,7 +67,7 @@ from .web_response import StreamResponse
 __all__ = ("BaseRequest", "FileField", "Request")
 
 
-if TYPE_CHECKING:  # pragma: no cover
+if TYPE_CHECKING:
     from .web_app import Application
     from .web_protocol import RequestHandler
     from .web_urldispatcher import UrlMappingMatchInfo
@@ -199,12 +207,13 @@ class BaseRequest(MutableMapping[str, Any], HeadersMixin):
     def clone(
         self,
         *,
-        method: str = sentinel,
-        rel_url: StrOrURL = sentinel,
-        headers: LooseHeaders = sentinel,
-        scheme: str = sentinel,
-        host: str = sentinel,
-        remote: str = sentinel,
+        method: Union[str, _SENTINEL] = sentinel,
+        rel_url: Union[StrOrURL, _SENTINEL] = sentinel,
+        headers: Union[LooseHeaders, _SENTINEL] = sentinel,
+        scheme: Union[str, _SENTINEL] = sentinel,
+        host: Union[str, _SENTINEL] = sentinel,
+        remote: Union[str, _SENTINEL] = sentinel,
+        client_max_size: Union[int, _SENTINEL] = sentinel,
     ) -> "BaseRequest":
         """Clone itself with replacement some attributes.
 
@@ -219,7 +228,7 @@ class BaseRequest(MutableMapping[str, Any], HeadersMixin):
         if method is not sentinel:
             dct["method"] = method
         if rel_url is not sentinel:
-            new_url = URL(rel_url)
+            new_url: URL = URL(rel_url)
             dct["url"] = new_url
             dct["path"] = str(new_url)
         if headers is not sentinel:
@@ -238,6 +247,8 @@ class BaseRequest(MutableMapping[str, Any], HeadersMixin):
             kwargs["host"] = host
         if remote is not sentinel:
             kwargs["remote"] = remote
+        if client_max_size is sentinel:
+            client_max_size = self._client_max_size
 
         return self.__class__(
             message,
@@ -246,7 +257,7 @@ class BaseRequest(MutableMapping[str, Any], HeadersMixin):
             self._payload_writer,
             self._task,
             self._loop,
-            client_max_size=self._client_max_size,
+            client_max_size=client_max_size,
             state=self._state.copy(),
             **kwargs,
         )
@@ -268,6 +279,10 @@ class BaseRequest(MutableMapping[str, Any], HeadersMixin):
     @property
     def writer(self) -> AbstractStreamWriter:
         return self._payload_writer
+
+    @property
+    def client_max_size(self) -> int:
+        return self._client_max_size
 
     @reify
     def message(self) -> RawRequestMessage:
@@ -464,7 +479,7 @@ class BaseRequest(MutableMapping[str, Any], HeadersMixin):
         return self._message.path
 
     @reify
-    def query(self) -> "MultiDictProxy[str]":
+    def query(self) -> "MultiMapping[str]":
         """A multidict with all the variables in the query string."""
         return MultiDictProxy(self._rel_url.query)
 
@@ -477,7 +492,7 @@ class BaseRequest(MutableMapping[str, Any], HeadersMixin):
         return self._rel_url.query_string
 
     @reify
-    def headers(self) -> "CIMultiDictProxy[str]":
+    def headers(self) -> "MultiMapping[str]":
         """A case-insensitive multidict proxy with all headers."""
         return self._headers
 
@@ -568,7 +583,7 @@ class BaseRequest(MutableMapping[str, Any], HeadersMixin):
         A read-only dictionary-like object.
         """
         raw = self.headers.get(hdrs.COOKIE, "")
-        parsed: SimpleCookie[str] = SimpleCookie(raw)
+        parsed = SimpleCookie(raw)
         return MappingProxyType({key: val.value for key, val in parsed.items()})
 
     @reify
@@ -711,19 +726,21 @@ class BaseRequest(MutableMapping[str, Any], HeadersMixin):
                     # https://tools.ietf.org/html/rfc7578#section-4.4
                     if field.filename:
                         # store file in temp file
-                        tmp = tempfile.TemporaryFile()
+                        tmp = await self._loop.run_in_executor(
+                            None, tempfile.TemporaryFile
+                        )
                         chunk = await field.read_chunk(size=2**16)
                         while chunk:
                             chunk = field.decode(chunk)
-                            tmp.write(chunk)
+                            await self._loop.run_in_executor(None, tmp.write, chunk)
                             size += len(chunk)
                             if 0 < max_size < size:
-                                tmp.close()
+                                await self._loop.run_in_executor(None, tmp.close)
                                 raise HTTPRequestEntityTooLarge(
                                     max_size=max_size, actual_size=size
                                 )
                             chunk = await field.read_chunk(size=2**16)
-                        tmp.seek(0)
+                        await self._loop.run_in_executor(None, tmp.seek, 0)
 
                         if field_ct is None:
                             field_ct = "application/octet-stream"
@@ -800,7 +817,7 @@ class BaseRequest(MutableMapping[str, Any], HeadersMixin):
         return
 
     def _cancel(self, exc: BaseException) -> None:
-        self._payload.set_exception(exc)
+        set_exception(self._payload, exc)
 
 
 class Request(BaseRequest):
@@ -831,12 +848,13 @@ class Request(BaseRequest):
     def clone(
         self,
         *,
-        method: str = sentinel,
-        rel_url: StrOrURL = sentinel,
-        headers: LooseHeaders = sentinel,
-        scheme: str = sentinel,
-        host: str = sentinel,
-        remote: str = sentinel,
+        method: Union[str, _SENTINEL] = sentinel,
+        rel_url: Union[StrOrURL, _SENTINEL] = sentinel,
+        headers: Union[LooseHeaders, _SENTINEL] = sentinel,
+        scheme: Union[str, _SENTINEL] = sentinel,
+        host: Union[str, _SENTINEL] = sentinel,
+        remote: Union[str, _SENTINEL] = sentinel,
+        client_max_size: Union[int, _SENTINEL] = sentinel,
     ) -> "Request":
         ret = super().clone(
             method=method,
@@ -845,6 +863,7 @@ class Request(BaseRequest):
             scheme=scheme,
             host=host,
             remote=remote,
+            client_max_size=client_max_size,
         )
         new_ret = cast(Request, ret)
         new_ret._match_info = self._match_info
