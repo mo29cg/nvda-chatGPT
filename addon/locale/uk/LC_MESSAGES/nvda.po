@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2023-09-30 08:58+0300\n"
-"PO-Revision-Date: 2023-09-30 22:43+0300\n"
-"Last-Translator: Heorhii <nvda.translation.uk@gmail.com>\n"
+"POT-Creation-Date: 2024-06-23 14:10+0300\n"
+"PO-Revision-Date: 2024-06-23 14:13+0300\n"
+"Last-Translator: Volodymyr Pyrih <vp88.mobile@gmail.com>\n"
 "Language-Team: \n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
@@ -12,53 +12,45 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.3.2\n"
-"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 3.4.4\n"
+"X-Poedit-Basepath: ../../../..\n"
+"X-Poedit-SearchPath-0: buildVars.py\n"
+"X-Poedit-SearchPath-1: addon/globalPlugins/nvdaChatGPT\n"
 
-#. Translators: Name  of category in setting panel and input gestures.
-#: addon\globalPlugins\nvdaChatGPT\__init__.py:28
+#: addon/globalPlugins/nvdaChatGPT/__init__.py:32
 msgid "Ask chatGPT"
 msgstr "Запитати ChatGPT"
 
-#. Translators: TextBox for open ai api key.
-#: addon\globalPlugins\nvdaChatGPT\__init__.py:38
+#: addon/globalPlugins/nvdaChatGPT/__init__.py:42
 msgid "chatGPT api key:"
 msgstr "ключ API chat GPT:"
 
-#. Translators: SelectBox for output language when you ask meaning of a word.
-#: addon\globalPlugins\nvdaChatGPT\__init__.py:43
+#: addon/globalPlugins/nvdaChatGPT/__init__.py:47
 msgid "Output language of a meaning of words :"
 msgstr "Мова виведення значення слів :"
 
-#. making it configurable only when asking a sentence, because when asking a meaning of words, the quality doesn't really change
-#. Translators: SelectBox of chat GPT version when user ask a sentence
-#: addon\globalPlugins\nvdaChatGPT\__init__.py:51
+#: addon/globalPlugins/nvdaChatGPT/__init__.py:57
 msgid "Chat gpt version that respond to a conversation :"
 msgstr "Версія gpt чату, яка відповідає на розмову:"
 
-#. Translators: Checkbox for if you want a caution or not.
-#: addon\globalPlugins\nvdaChatGPT\__init__.py:60
+#: addon/globalPlugins/nvdaChatGPT/__init__.py:66
 msgid "Don't show a caution when a conversation is long"
 msgstr "Не показувати застереження, коли розмова довга"
 
-#. Translators: Description of gesture in input gesture.
-#: addon\globalPlugins\nvdaChatGPT\__init__.py:122
+#: addon/globalPlugins/nvdaChatGPT/__init__.py:131
 msgid "Ask the meaning of a word to chatGPT"
 msgstr "Запитати значення слова у chatGPT"
 
-#. Translators: Message when a word is sent to chatGPT
-#: addon\globalPlugins\nvdaChatGPT\__init__.py:143
-#: addon\globalPlugins\nvdaChatGPT\dialogs.py:197
+#: addon/globalPlugins/nvdaChatGPT/__init__.py:152
+#: addon/globalPlugins/nvdaChatGPT/dialogs.py:204
 msgid "asking the meaning to chatGPT"
 msgstr "запитати значення в chatGPT"
 
-#. Translators: Description of ask sentence gesture in input gesture.
-#: addon\globalPlugins\nvdaChatGPT\__init__.py:149
+#: addon/globalPlugins/nvdaChatGPT/__init__.py:158
 msgid "Ask the sentence to chatGPT"
 msgstr "Запитати речення в chat GPT"
 
-#. Translators: Message when it encounter an unexpected error, the error itself will be shown below this.
-#: addon\globalPlugins\nvdaChatGPT\asker.py:42
+#: addon/globalPlugins/nvdaChatGPT/asker.py:48
 msgid ""
 "Unexpected error occured. Please send the error message below to the add-on "
 "author's email address, lcong5946@gmail.com \n"
@@ -70,46 +62,38 @@ msgstr ""
 "\n"
 " "
 
-#. Translators: CheckBox for a caution dialog that asks users to continue
-#: addon\globalPlugins\nvdaChatGPT\dialogs.py:24
+#: addon/globalPlugins/nvdaChatGPT/dialogs.py:30
 msgid "Don't show again"
 msgstr "Більше не показувати"
 
-#. Translators:Title for a dialog when a user want to ask meaning of a word
-#: addon\globalPlugins\nvdaChatGPT\dialogs.py:72
+#: addon/globalPlugins/nvdaChatGPT/dialogs.py:78
 msgid "What word do you want to know?"
 msgstr "Яке слово ви хочете дізнатися?"
 
-#. Translators: Title for a dialog when a user want to ask a sentence
-#: addon\globalPlugins\nvdaChatGPT\dialogs.py:75
+#: addon/globalPlugins/nvdaChatGPT/dialogs.py:81
 msgid "What do you want to ask?"
 msgstr "Про що ви хочете запитати?"
 
-#. Translators: Button of a question dialog.
-#: addon\globalPlugins\nvdaChatGPT\dialogs.py:110
+#: addon/globalPlugins/nvdaChatGPT/dialogs.py:116
 msgid "&Submit"
 msgstr "&Надіслати"
 
-#. Translators: Button for a question dialog.
-#: addon\globalPlugins\nvdaChatGPT\dialogs.py:115
+#: addon/globalPlugins/nvdaChatGPT/dialogs.py:121
 msgid "&Cancel"
 msgstr "&Скасувати"
 
-#. Translators: Prefix of user's message in the chat log
-#: addon\globalPlugins\nvdaChatGPT\dialogs.py:145
+#: addon/globalPlugins/nvdaChatGPT/dialogs.py:151
 msgid "You : "
 msgstr "Ви : "
 
-#. Translators:  Title of a caution dialog when a conversation is long
-#: addon\globalPlugins\nvdaChatGPT\dialogs.py:177
+#: addon/globalPlugins/nvdaChatGPT/dialogs.py:183
 msgid "Do you want to continue?"
 msgstr "Хочете продовжити?"
 
-#. Translators: Message of a caution dialog when a conversation is long
-#: addon\globalPlugins\nvdaChatGPT\dialogs.py:180
+#: addon/globalPlugins/nvdaChatGPT/dialogs.py:186
 msgid ""
 "You've already asked 5 questions in a conversation,\n"
-"note that the longer conversation the more your credit (or your real money) "
+"note that the longer conversation themore your credit (or your real money) "
 "consume.\n"
 "Do you want to continue?"
 msgstr ""
@@ -118,17 +102,15 @@ msgstr ""
 "реальні гроші).\n"
 "Ви хочете продовжити?"
 
-#. Translators: Message when a word is sent to chatGPT
-#: addon\globalPlugins\nvdaChatGPT\dialogs.py:205
+#: addon/globalPlugins/nvdaChatGPT/dialogs.py:212
 msgid "asking that to chatGPT"
 msgstr "запитати про це в chat GPT"
 
-#. Translators: Error message when trying to submit without entering anything.
-#: addon\globalPlugins\nvdaChatGPT\dialogs.py:238
+#: addon/globalPlugins/nvdaChatGPT/dialogs.py:245
 msgid "The text box is empty, type something!"
 msgstr "Вікно редагування порожнє, введіть щось!"
 
-#: addon\globalPlugins\nvdaChatGPT\instructions.py:9
+#: addon/globalPlugins/nvdaChatGPT/instructions.py:15
 msgid ""
 "\n"
 "1. Go to [here](https://platform.openai.com/account/api-keys)\n"
@@ -159,8 +141,7 @@ msgstr ""
 "overview)\n"
 "Він повинен коштувати менше $5 на місяць при звичайному використанні.\n"
 
-#. Translators:Error when text box of api key is empty
-#: addon\globalPlugins\nvdaChatGPT\instructions.py:24
+#: addon/globalPlugins/nvdaChatGPT/instructions.py:30
 #, python-brace-format
 msgid ""
 "Your api key is not set! You need to do the following.\n"
@@ -169,8 +150,7 @@ msgstr ""
 "У вас не встановлено ключ API! Вам потрібно виконати нижченаведені дії.\n"
 " {HOW_TO_GET_KEY}"
 
-#. Translators:Error when api key is set but incorrect.
-#: addon\globalPlugins\nvdaChatGPT\instructions.py:28
+#: addon/globalPlugins/nvdaChatGPT/instructions.py:34
 #, python-brace-format
 msgid ""
 "Your api key is incorrect, Check it again! You need to do the following.\n"
@@ -180,22 +160,18 @@ msgstr ""
 "нижченаведені дії.\n"
 " {HOW_TO_GET_KEY}"
 
-#: addon\globalPlugins\nvdaChatGPT\instructions.py:33
+#: addon/globalPlugins/nvdaChatGPT/instructions.py:39
 msgid ""
 "You ran out of your free credits, or your credits expired! Now you have to "
-"start paying. Below is how you set up your payment method.  \n"
+"start paying. Below is how\n"
+"you set up your payment method.\"\n"
 "\n"
 "1. Go to [here](https://platform.openai.com/account/billing/overview)\n"
 "2. Press \"Set up payment method\" button.\n"
 "\n"
-"The cost should be less than $3 a month for normal usage.  \n"
+"The cost should be less than $3 a month for normal usage.\n"
 "But I highly reccomend set usage limit from [here](https://platform.openai."
-"com/account/billing/limits)  \n"
-"\n"
-"Also, if you are doing well financially, consider donating to this add-on's "
-"author.  \n"
-"You can send your love from [here](https://paypal.me/satoshi26).  \n"
-"I would really appreciate it, and it would make my day!  \n"
+"com/account/billing/limits)\n"
 msgstr ""
 "У вас закінчилися безкоштовні кредити, або термін дії ваших кредитів "
 "закінчився! Тепер ви повинні почати платити. Нижче описано, як налаштувати "
@@ -208,96 +184,71 @@ msgstr ""
 "використання.  \n"
 "Але я наполегливо рекомендую встановити ліміт використання [тут](https://"
 "platform.openai.com/account/billing/limits)  \n"
-"\n"
-"Також, якщо у вас все гаразд з фінансами, подумайте про те, щоб зробити "
-"пожертву автору цього додатка.  \n"
-"Ви можете надіслати свою пожертву [тут](https://paypal.me/satoshi26).  \n"
-"Я був би дуже вдячний, і це зробило б мій день щасливішим!  \n"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:28
+#: addon/globalPlugins/nvdaChatGPT/languages.py:35
 msgid "Arabic"
 msgstr "Арабська"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:30
+#: addon/globalPlugins/nvdaChatGPT/languages.py:37
 msgid "Chinese"
 msgstr "Китайська"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:32
+#: addon/globalPlugins/nvdaChatGPT/languages.py:39
 msgid "Danish"
 msgstr "Данська"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:34
+#: addon/globalPlugins/nvdaChatGPT/languages.py:41
 msgid "English"
 msgstr "Англійська"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:36
+#: addon/globalPlugins/nvdaChatGPT/languages.py:43
 msgid "French"
 msgstr "Французька"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:38
+#: addon/globalPlugins/nvdaChatGPT/languages.py:45
 msgid "German"
 msgstr "Німецька"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:40
+#: addon/globalPlugins/nvdaChatGPT/languages.py:47
 msgid "Italian"
 msgstr "Італійська"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:42
+#: addon/globalPlugins/nvdaChatGPT/languages.py:49
 msgid "Japanese"
 msgstr "Японська"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:44
+#: addon/globalPlugins/nvdaChatGPT/languages.py:51
 msgid "Korean"
 msgstr "Корейська"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:46
+#: addon/globalPlugins/nvdaChatGPT/languages.py:53
 msgid "Portuguese"
 msgstr "Португальська"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:48
+#: addon/globalPlugins/nvdaChatGPT/languages.py:55
 msgid "Russian"
 msgstr "Російська"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:50
+#: addon/globalPlugins/nvdaChatGPT/languages.py:57
 msgid "Slovak"
 msgstr "Словацька"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:52
+#: addon/globalPlugins/nvdaChatGPT/languages.py:59
 msgid "Spanish"
 msgstr "Іспанська"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:54
+#: addon/globalPlugins/nvdaChatGPT/languages.py:61
 msgid "Turkish"
 msgstr "Турецька"
 
-#. Translators: Output language option.
-#: addon\globalPlugins\nvdaChatGPT\languages.py:56
+#: addon/globalPlugins/nvdaChatGPT/languages.py:63
 msgid "Ukrainian"
 msgstr "Українська"
 
-#. Add-on summary, usually the user visible name of the addon.
-#. Translators: Summary for this add-on
-#. to be shown on installation and add-on information found in Add-ons Manager.
 #: buildVars.py:23
 msgid "Ask ChatGPT"
 msgstr "Запитати ChatGPT"
 
-#. Add-on description
-#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 #: buildVars.py:26
 msgid "provide an access to chatGPT"
 msgstr "надає доступ до chatGPT"
