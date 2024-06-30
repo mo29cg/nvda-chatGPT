@@ -4,7 +4,7 @@ from . import messenger as messenger
 from . import asker as asker
 from . import configManager as configManager
 from . import convoManager as convoManager
-from revChatGPT.V3 import Chatbot
+
 from .promptOption import EnumPromptOption
 import wx
 import gui
@@ -54,6 +54,7 @@ class CautionDialog(wx.Dialog):
 
 class QuestionDialog(wx.Dialog):
     controlPressed = False
+    conversation = None
 
     # Assigning a function becaues we need to call to get content of weak ref.
     def instance():
@@ -88,11 +89,6 @@ class QuestionDialog(wx.Dialog):
             size=wx.Size(500, 500),
             pos=wx.DefaultPosition,
             style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER,
-        )
-
-        self.chatbot = Chatbot(
-            api_key=configManager.getConfig("apiKey"),
-            engine=ENGINE_OPTIONS[configManager.getConfig("gptVersionSentenceIndex")],
         )
 
         mainSizer = wx.BoxSizer(wx.VERTICAL)
@@ -143,9 +139,8 @@ class QuestionDialog(wx.Dialog):
         self.new_sizer.Add(self.panel, 1, wx.EXPAND | wx.ALL, 5)
 
     def getChatLog(self):
-        data = convoManager.readConversation()
         chat_log_array = []
-        for item in data:
+        for item in self.conversation:
             if item["role"] == "user":
                 # Translators: Prefix of user's message in the chat log
                 youPrefix = _("You : ")
@@ -161,14 +156,13 @@ class QuestionDialog(wx.Dialog):
         self.list_box.SetItems(items)
 
     def conversation_flow(self, prompt: str):
-        conversation = convoManager.readConversation()
 
-        if len(conversation) != 0:
-            self.chatbot.conversation = conversation
+        conversation = asker.askChatGPT(
+            prompt,
+            conversation=self.conversation,
+        )
 
-        asker.askChatGPT(prompt, chatbot=self.chatbot)
-
-        convoManager.saveConversation({"default": self.chatbot.conversation})
+        self.conversation = conversation
         self.refreshChatLog()
 
     def confirm_continue_if_conversation_is_long(self) -> bool:

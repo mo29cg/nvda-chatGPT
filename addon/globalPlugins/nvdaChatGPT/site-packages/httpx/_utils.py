@@ -1,11 +1,11 @@
+from __future__ import annotations
+
 import codecs
 import email.message
-import logging
+import ipaddress
 import mimetypes
-import netrc
 import os
 import re
-import sys
 import time
 import typing
 from pathlib import Path
@@ -29,9 +29,9 @@ _HTML5_FORM_ENCODING_RE = re.compile(
 
 
 def normalize_header_key(
-    value: typing.Union[str, bytes],
+    value: str | bytes,
     lower: bool,
-    encoding: typing.Optional[str] = None,
+    encoding: str | None = None,
 ) -> bytes:
     """
     Coerce str/bytes into a strictly byte-wise HTTP header key.
@@ -44,9 +44,7 @@ def normalize_header_key(
     return bytes_value.lower() if lower else bytes_value
 
 
-def normalize_header_value(
-    value: typing.Union[str, bytes], encoding: typing.Optional[str] = None
-) -> bytes:
+def normalize_header_value(value: str | bytes, encoding: str | None = None) -> bytes:
     """
     Coerce str/bytes into a strictly byte-wise HTTP header value.
     """
@@ -55,7 +53,7 @@ def normalize_header_value(
     return value.encode(encoding or "ascii")
 
 
-def primitive_value_to_str(value: "PrimitiveData") -> str:
+def primitive_value_to_str(value: PrimitiveData) -> str:
     """
     Coerce a primitive data type into a string value.
 
@@ -93,73 +91,7 @@ def format_form_param(name: str, value: str) -> bytes:
     return f'{name}="{value}"'.encode()
 
 
-# Null bytes; no need to recreate these on each call to guess_json_utf
-_null = b"\x00"
-_null2 = _null * 2
-_null3 = _null * 3
-
-
-def guess_json_utf(data: bytes) -> typing.Optional[str]:
-    # JSON always starts with two ASCII characters, so detection is as
-    # easy as counting the nulls and from their location and count
-    # determine the encoding. Also detect a BOM, if present.
-    sample = data[:4]
-    if sample in (codecs.BOM_UTF32_LE, codecs.BOM_UTF32_BE):
-        return "utf-32"  # BOM included
-    if sample[:3] == codecs.BOM_UTF8:
-        return "utf-8-sig"  # BOM included, MS style (discouraged)
-    if sample[:2] in (codecs.BOM_UTF16_LE, codecs.BOM_UTF16_BE):
-        return "utf-16"  # BOM included
-    nullcount = sample.count(_null)
-    if nullcount == 0:
-        return "utf-8"
-    if nullcount == 2:
-        if sample[::2] == _null2:  # 1st and 3rd are null
-            return "utf-16-be"
-        if sample[1::2] == _null2:  # 2nd and 4th are null
-            return "utf-16-le"
-        # Did not detect 2 valid UTF-16 ascii-range characters
-    if nullcount == 3:
-        if sample[:3] == _null3:
-            return "utf-32-be"
-        if sample[1:] == _null3:
-            return "utf-32-le"
-        # Did not detect a valid UTF-32 ascii-range character
-    return None
-
-
-class NetRCInfo:
-    def __init__(self, files: typing.Optional[typing.List[str]] = None) -> None:
-        if files is None:
-            files = [os.getenv("NETRC", ""), "~/.netrc", "~/_netrc"]
-        self.netrc_files = files
-
-    @property
-    def netrc_info(self) -> typing.Optional[netrc.netrc]:
-        if not hasattr(self, "_netrc_info"):
-            self._netrc_info = None
-            for file_path in self.netrc_files:
-                expanded_path = Path(file_path).expanduser()
-                try:
-                    if expanded_path.is_file():
-                        self._netrc_info = netrc.netrc(str(expanded_path))
-                        break
-                except (netrc.NetrcParseError, IOError):  # pragma: no cover
-                    # Issue while reading the netrc file, ignore...
-                    pass
-        return self._netrc_info
-
-    def get_credentials(self, host: str) -> typing.Optional[typing.Tuple[str, str]]:
-        if self.netrc_info is None:
-            return None
-
-        auth_info = self.netrc_info.authenticators(host)
-        if auth_info is None or auth_info[2] is None:
-            return None
-        return (auth_info[0], auth_info[2])
-
-
-def get_ca_bundle_from_env() -> typing.Optional[str]:
+def get_ca_bundle_from_env() -> str | None:
     if "SSL_CERT_FILE" in os.environ:
         ssl_file = Path(os.environ["SSL_CERT_FILE"])
         if ssl_file.is_file():
@@ -171,7 +103,7 @@ def get_ca_bundle_from_env() -> typing.Optional[str]:
     return None
 
 
-def parse_header_links(value: str) -> typing.List[typing.Dict[str, str]]:
+def parse_header_links(value: str) -> list[dict[str, str]]:
     """
     Returns a list of parsed link headers, for more info see:
     https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link
@@ -187,7 +119,7 @@ def parse_header_links(value: str) -> typing.List[typing.Dict[str, str]]:
     :param value: HTTP Link entity-header field
     :return: list of parsed link headers
     """
-    links: typing.List[typing.Dict[str, str]] = []
+    links: list[dict[str, str]] = []
     replace_chars = " '\""
     value = value.strip(replace_chars)
     if not value:
@@ -208,7 +140,7 @@ def parse_header_links(value: str) -> typing.List[typing.Dict[str, str]]:
     return links
 
 
-def parse_content_type_charset(content_type: str) -> typing.Optional[str]:
+def parse_content_type_charset(content_type: str) -> str | None:
     # We used to use `cgi.parse_header()` here, but `cgi` became a dead battery.
     # See: https://peps.python.org/pep-0594/#cgi
     msg = email.message.Message()
@@ -220,65 +152,21 @@ SENSITIVE_HEADERS = {"authorization", "proxy-authorization"}
 
 
 def obfuscate_sensitive_headers(
-    items: typing.Iterable[typing.Tuple[typing.AnyStr, typing.AnyStr]]
-) -> typing.Iterator[typing.Tuple[typing.AnyStr, typing.AnyStr]]:
+    items: typing.Iterable[tuple[typing.AnyStr, typing.AnyStr]],
+) -> typing.Iterator[tuple[typing.AnyStr, typing.AnyStr]]:
     for k, v in items:
         if to_str(k.lower()) in SENSITIVE_HEADERS:
             v = to_bytes_or_str("[secure]", match_type_of=v)
         yield k, v
 
 
-_LOGGER_INITIALIZED = False
-TRACE_LOG_LEVEL = 5
-
-
-class Logger(logging.Logger):
-    # Stub for type checkers.
-    def trace(self, message: str, *args: typing.Any, **kwargs: typing.Any) -> None:
-        ...  # pragma: no cover
-
-
-def get_logger(name: str) -> Logger:
-    """
-    Get a `logging.Logger` instance, and optionally
-    set up debug logging based on the HTTPX_LOG_LEVEL environment variable.
-    """
-    global _LOGGER_INITIALIZED
-
-    if not _LOGGER_INITIALIZED:
-        _LOGGER_INITIALIZED = True
-        logging.addLevelName(TRACE_LOG_LEVEL, "TRACE")
-
-        log_level = os.environ.get("HTTPX_LOG_LEVEL", "").upper()
-        if log_level in ("DEBUG", "TRACE"):
-            logger = logging.getLogger("httpx")
-            logger.setLevel(logging.DEBUG if log_level == "DEBUG" else TRACE_LOG_LEVEL)
-            handler = logging.StreamHandler(sys.stderr)
-            handler.setFormatter(
-                logging.Formatter(
-                    fmt="%(levelname)s [%(asctime)s] %(name)s - %(message)s",
-                    datefmt="%Y-%m-%d %H:%M:%S",
-                )
-            )
-            logger.addHandler(handler)
-
-    logger = logging.getLogger(name)
-
-    def trace(message: str, *args: typing.Any, **kwargs: typing.Any) -> None:
-        logger.log(TRACE_LOG_LEVEL, message, *args, **kwargs)
-
-    logger.trace = trace  # type: ignore
-
-    return typing.cast(Logger, logger)
-
-
-def port_or_default(url: "URL") -> typing.Optional[int]:
+def port_or_default(url: URL) -> int | None:
     if url.port is not None:
         return url.port
     return {"http": 80, "https": 443}.get(url.scheme)
 
 
-def same_origin(url: "URL", other: "URL") -> bool:
+def same_origin(url: URL, other: URL) -> bool:
     """
     Return 'True' if the given URLs share the same origin.
     """
@@ -289,7 +177,7 @@ def same_origin(url: "URL", other: "URL") -> bool:
     )
 
 
-def is_https_redirect(url: "URL", location: "URL") -> bool:
+def is_https_redirect(url: URL, location: URL) -> bool:
     """
     Return 'True' if 'location' is a HTTPS upgrade of 'url'
     """
@@ -304,7 +192,7 @@ def is_https_redirect(url: "URL", location: "URL") -> bool:
     )
 
 
-def get_environment_proxies() -> typing.Dict[str, typing.Optional[str]]:
+def get_environment_proxies() -> dict[str, str | None]:
     """Gets proxy information from the environment"""
 
     # urllib.request.getproxies() falls back on System
@@ -312,7 +200,7 @@ def get_environment_proxies() -> typing.Dict[str, typing.Optional[str]]:
     # We don't want to propagate non-HTTP proxies into
     # our configuration such as 'TRAVIS_APT_PROXY'.
     proxy_info = getproxies()
-    mounts: typing.Dict[str, typing.Optional[str]] = {}
+    mounts: dict[str, str | None] = {}
 
     for scheme in ("http", "https", "all"):
         if proxy_info.get(scheme):
@@ -337,16 +225,27 @@ def get_environment_proxies() -> typing.Dict[str, typing.Optional[str]]:
             # NO_PROXY=google.com is marked as "all://*google.com,
             #   which disables "www.google.com" and "google.com".
             #   (But not "wwwgoogle.com")
-            mounts[f"all://*{hostname}"] = None
+            # NO_PROXY can include domains, IPv6, IPv4 addresses and "localhost"
+            #   NO_PROXY=example.com,::1,localhost,192.168.0.0/16
+            if "://" in hostname:
+                mounts[hostname] = None
+            elif is_ipv4_hostname(hostname):
+                mounts[f"all://{hostname}"] = None
+            elif is_ipv6_hostname(hostname):
+                mounts[f"all://[{hostname}]"] = None
+            elif hostname.lower() == "localhost":
+                mounts[f"all://{hostname}"] = None
+            else:
+                mounts[f"all://*{hostname}"] = None
 
     return mounts
 
 
-def to_bytes(value: typing.Union[str, bytes], encoding: str = "utf-8") -> bytes:
+def to_bytes(value: str | bytes, encoding: str = "utf-8") -> bytes:
     return value.encode(encoding) if isinstance(value, str) else value
 
 
-def to_str(value: typing.Union[str, bytes], encoding: str = "utf-8") -> str:
+def to_str(value: str | bytes, encoding: str = "utf-8") -> str:
     return value if isinstance(value, str) else value.decode(encoding)
 
 
@@ -358,13 +257,13 @@ def unquote(value: str) -> str:
     return value[1:-1] if value[0] == value[-1] == '"' else value
 
 
-def guess_content_type(filename: typing.Optional[str]) -> typing.Optional[str]:
+def guess_content_type(filename: str | None) -> str | None:
     if filename:
         return mimetypes.guess_type(filename)[0] or "application/octet-stream"
     return None
 
 
-def peek_filelike_length(stream: typing.Any) -> typing.Optional[int]:
+def peek_filelike_length(stream: typing.Any) -> int | None:
     """
     Given a file-like stream object, return its length in number of bytes
     without reading it into memory.
@@ -396,14 +295,10 @@ class Timer:
             import trio
 
             return trio.current_time()
-        elif library == "curio":  # pragma: no cover
-            import curio
+        else:
+            import asyncio
 
-            return typing.cast(float, await curio.clock())
-
-        import asyncio
-
-        return asyncio.get_event_loop().time()
+            return asyncio.get_event_loop().time()
 
     def sync_start(self) -> None:
         self.started = time.perf_counter()
@@ -425,12 +320,12 @@ class URLPattern:
     A utility class currently used for making lookups against proxy keys...
 
     # Wildcard matching...
-    >>> pattern = URLPattern("all")
+    >>> pattern = URLPattern("all://")
     >>> pattern.matches(httpx.URL("http://example.com"))
     True
 
     # Witch scheme matching...
-    >>> pattern = URLPattern("https")
+    >>> pattern = URLPattern("https://")
     >>> pattern.matches(httpx.URL("https://example.com"))
     True
     >>> pattern.matches(httpx.URL("http://example.com"))
@@ -478,7 +373,7 @@ class URLPattern:
         self.host = "" if url.host == "*" else url.host
         self.port = url.port
         if not url.host or url.host == "*":
-            self.host_regex: typing.Optional[typing.Pattern[str]] = None
+            self.host_regex: typing.Pattern[str] | None = None
         elif url.host.startswith("*."):
             # *.example.com should match "www.example.com", but not "example.com"
             domain = re.escape(url.host[2:])
@@ -492,7 +387,7 @@ class URLPattern:
             domain = re.escape(url.host)
             self.host_regex = re.compile(f"^{domain}$")
 
-    def matches(self, other: "URL") -> bool:
+    def matches(self, other: URL) -> bool:
         if self.scheme and self.scheme != other.scheme:
             return False
         if (
@@ -506,7 +401,7 @@ class URLPattern:
         return True
 
     @property
-    def priority(self) -> typing.Tuple[int, int, int]:
+    def priority(self) -> tuple[int, int, int]:
         """
         The priority allows URLPattern instances to be sortable, so that
         we can match from most specific to least specific.
@@ -522,8 +417,24 @@ class URLPattern:
     def __hash__(self) -> int:
         return hash(self.pattern)
 
-    def __lt__(self, other: "URLPattern") -> bool:
+    def __lt__(self, other: URLPattern) -> bool:
         return self.priority < other.priority
 
     def __eq__(self, other: typing.Any) -> bool:
         return isinstance(other, URLPattern) and self.pattern == other.pattern
+
+
+def is_ipv4_hostname(hostname: str) -> bool:
+    try:
+        ipaddress.IPv4Address(hostname.split("/")[0])
+    except Exception:
+        return False
+    return True
+
+
+def is_ipv6_hostname(hostname: str) -> bool:
+    try:
+        ipaddress.IPv6Address(hostname.split("/")[0])
+    except Exception:
+        return False
+    return True
