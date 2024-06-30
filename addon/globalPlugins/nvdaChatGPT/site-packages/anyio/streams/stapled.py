@@ -1,5 +1,8 @@
+from __future__ import annotations
+
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Callable, Generic, List, Mapping, Optional, Sequence, TypeVar
+from typing import Any, Generic, TypeVar
 
 from ..abc import (
     ByteReceiveStream,
@@ -21,8 +24,8 @@ class StapledByteStream(ByteStream):
     """
     Combines two byte streams into a single, bidirectional byte stream.
 
-    Extra attributes will be provided from both streams, with the receive stream providing the
-    values in case of a conflict.
+    Extra attributes will be provided from both streams, with the receive stream
+    providing the values in case of a conflict.
 
     :param ByteSendStream send_stream: the sending byte stream
     :param ByteReceiveStream receive_stream: the receiving byte stream
@@ -57,8 +60,8 @@ class StapledObjectStream(Generic[T_Item], ObjectStream[T_Item]):
     """
     Combines two object streams into a single, bidirectional object stream.
 
-    Extra attributes will be provided from both streams, with the receive stream providing the
-    values in case of a conflict.
+    Extra attributes will be provided from both streams, with the receive stream
+    providing the values in case of a conflict.
 
     :param ObjectSendStream send_stream: the sending object stream
     :param ObjectReceiveStream receive_stream: the receiving object stream
@@ -93,11 +96,11 @@ class MultiListener(Generic[T_Stream], Listener[T_Stream]):
     """
     Combines multiple listeners into one, serving connections from all of them at once.
 
-    Any MultiListeners in the given collection of listeners will have their listeners moved into
-    this one.
+    Any MultiListeners in the given collection of listeners will have their listeners
+    moved into this one.
 
-    Extra attributes are provided from each listener, with each successive listener overriding any
-    conflicting attributes from the previous one.
+    Extra attributes are provided from each listener, with each successive listener
+    overriding any conflicting attributes from the previous one.
 
     :param listeners: listeners to serve
     :type listeners: Sequence[Listener[T_Stream]]
@@ -106,7 +109,7 @@ class MultiListener(Generic[T_Stream], Listener[T_Stream]):
     listeners: Sequence[Listener[T_Stream]]
 
     def __post_init__(self) -> None:
-        listeners: List[Listener[T_Stream]] = []
+        listeners: list[Listener[T_Stream]] = []
         for listener in self.listeners:
             if isinstance(listener, MultiListener):
                 listeners.extend(listener.listeners)
@@ -117,7 +120,7 @@ class MultiListener(Generic[T_Stream], Listener[T_Stream]):
         self.listeners = listeners
 
     async def serve(
-        self, handler: Callable[[T_Stream], Any], task_group: Optional[TaskGroup] = None
+        self, handler: Callable[[T_Stream], Any], task_group: TaskGroup | None = None
     ) -> None:
         from .. import create_task_group
 
