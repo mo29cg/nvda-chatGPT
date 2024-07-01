@@ -1,6 +1,10 @@
 import queueHandler
 import ui
-import markdown2
+from .temporary_path import temporary_sys_path
+
+
+with temporary_sys_path():
+    import markdown2
 
 
 def emitUiBrowseableMessage(message):

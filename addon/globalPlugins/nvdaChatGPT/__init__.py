@@ -1,7 +1,3 @@
-import os
-import sys
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "site-packages"))
 from . import languages as languages
 from . import asker as asker
 from .promptOption import EnumPromptOption
@@ -48,8 +44,7 @@ class OptionsPanel(gui.SettingsPanel):
         self.outputLanguage = sHelper.addLabeledControl(
             label, wx.Choice, choices=languages.LANGUAGE_OPTIONS
         )
-        self.outputLanguage.Selection = configManager.getConfig(
-            "outputLanguageIndex")
+        self.outputLanguage.Selection = configManager.getConfig("outputLanguageIndex")
 
         # making it configurable only when asking a sentence, because when asking a meaning of words,
         # the quality doesn't really change
@@ -69,8 +64,7 @@ class OptionsPanel(gui.SettingsPanel):
 
     def onSave(self):
         configManager.setConfig("apiKey", self.apiKey.Value)
-        configManager.setConfig("outputLanguageIndex",
-                                self.outputLanguage.Selection)
+        configManager.setConfig("outputLanguageIndex", self.outputLanguage.Selection)
         configManager.setConfig(
             "gptVersionSentenceIndex", self.gptVersionSentence.Selection
         )
@@ -117,13 +111,11 @@ def isApiKeyEmpty():
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     def __init__(self):
         super(GlobalPlugin, self).__init__()
-        gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(
-            OptionsPanel)
+        gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(OptionsPanel)
 
     def terminate(self):
         super(GlobalPlugin, self).terminate()
-        gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(
-            OptionsPanel)
+        gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(OptionsPanel)
 
     @script(
         category=category_name,

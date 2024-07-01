@@ -10,8 +10,12 @@ from . import utils as utils
 import json
 from . import instructions as instructions
 from logHandler import log
-from openai import OpenAI
 from . import myLog as myLog
+from .temporary_path import temporary_sys_path
+
+
+with temporary_sys_path():
+    from openai import OpenAI
 
 
 try:
