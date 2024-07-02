@@ -14,7 +14,7 @@ You can read readme in, [Japanese](https://github.com/mo29cg/nvda-chatGPT/blob/m
 ### Setup (YOU NEED TO DO THIS)
 
 You need chatGPT api key to use this add-on, You get free credits, but it expires in several monthes.  
-So, after it expires, you need to pay your actual money to keep using this add-on, it should be less than $5 a month for normal usage.  
+So, after it expires, you need to pay your actual money to keep using this add-on, it should be less than $2 a month for normal usage.  
 Below is how to get api key and set up.
 
 1. go to https://platform.openai.com/account/api-keys
@@ -38,6 +38,17 @@ Assuming you correctly put your api key, most likely your chatGPT account is too
 Now, you need to set up your payment method.  
 Go to [here](https://platform.openai.com/account/billing/overview)
 
+### For developer
+
+To make a release, run below
+
+```
+git tag -a <release name>
+git push --tags
+```
+
+Release will be created by github-action.
+
 ### I need your supports!
 
 Due to my visual impairment, my capability for jobs is pretty limited.  
@@ -45,7 +56,5 @@ I'd really appreciate donations if anyone find my add-on useful.
 Here is the link: [paypal.me](https://paypal.me/satoshi26)
 
 ### contributor
-
-- wrapper to access chatGPT [revChatGPT](https://github.com/acheong08/ChatGPT)
 
 - Figured out how to correctly import modules [@sarnex](https://github.com/sarnex)
