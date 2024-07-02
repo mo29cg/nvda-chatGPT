@@ -10,42 +10,42 @@
 # To avoid initializing translations in this module we simply roll our own "fake" `_` function
 # which returns whatever is given to it as an argument.
 def _(arg):
-    return arg
+	return arg
 
 
 # Add-on information variables
 addon_info = {
-    # add-on Name/identifier, internal for NVDA
-    "addon_name": "nvdaChatGPT",
-    # Add-on summary, usually the user visible name of the addon.
-    # Translators: Summary for this add-on
-    # to be shown on installation and add-on information found in Add-ons Manager.
-    "addon_summary": _("Ask ChatGPT"),
-    # Add-on description
-    # Translators: Long description to be shown for this add-on on add-on information from add-ons manager
-    "addon_description": _("""provide an access to chatGPT"""),
-    # version
-    "addon_version": "0.21",
-    # Author(s)
-    "addon_author": "suzukix<lcong5946@gmail.com>",
-    # URL for the add-on documentation support
-    "addon_url": None,
-    # URL for the add-on repository where the source code can be found
-    "addon_sourceURL": "https://github.com/mo29cg/nvda-chatGPT",
-    # Documentation file name
-    "addon_docFileName": "readme.html",
-    # Minimum NVDA version supported (e.g. "2018.3.0", minor version is optional)
-    "addon_minimumNVDAVersion": 2022.1,
-    # Last NVDA version supported/tested (e.g. "2018.4.0", ideally more recent than minimum version)
-    "addon_lastTestedNVDAVersion": 2024.1,
-    # Add-on update channel (default is None, denoting stable releases,
-    # and for development releases, use "dev".)
-    # Do not change unless you know what you are doing!
-    "addon_updateChannel": None,
-    # Add-on license such as GPL 2
-    "addon_license": None,
-    # URL for the license document the ad-on is licensed under
-    "addon_licenseURL": None,
+	# add-on Name/identifier, internal for NVDA
+	"addon_name": "nvdaChatGPT",
+	# Add-on summary, usually the user visible name of the addon.
+	# Translators: Summary for this add-on
+	# to be shown on installation and add-on information found in Add-ons Manager.
+	"addon_summary": _("Ask ChatGPT"),
+	# Add-on description
+	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+	"addon_description": _("""provide an access to chatGPT"""),
+	# version
+	"addon_version": "0.22",
+	# Author(s)
+	"addon_author": "suzukix<lcong5946@gmail.com>",
+	# URL for the add-on documentation support
+	"addon_url": None,
+	# URL for the add-on repository where the source code can be found
+	"addon_sourceURL": "https://github.com/mo29cg/nvda-chatGPT",
+	# Documentation file name
+	"addon_docFileName": "readme.html",
+	# Minimum NVDA version supported (e.g. "2018.3.0", minor version is optional)
+	"addon_minimumNVDAVersion": 2022.1,
+	# Last NVDA version supported/tested (e.g. "2018.4.0", ideally more recent than minimum version)
+	"addon_lastTestedNVDAVersion": 2024.1,
+	# Add-on update channel (default is None, denoting stable releases,
+	# and for development releases, use "dev".)
+	# Do not change unless you know what you are doing!
+	"addon_updateChannel": None,
+	# Add-on license such as GPL 2
+	"addon_license": None,
+	# URL for the license document the ad-on is licensed under
+	"addon_licenseURL": None,
 }
 
 # Define the python files that are the sources of your add-on.
