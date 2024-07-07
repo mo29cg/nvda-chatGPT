@@ -8,24 +8,27 @@ THREAD_NAME = "askChatGPT"
 
 
 def isProcessingOtherQuestion() -> bool:
-    for th in threading.enumerate():
-        if th.name == "askChatGPT":
-            messenger.emitUiMessage(
-                "You are already asking something, wait for the response first"
-            )
+	for th in threading.enumerate():
+		if th.name == "askChatGPT":
+			messenger.emitUiMessage("You are already asking something, wait for the response first")
 
-            return True
-    return False
+			return True
+	return False
 
 
-def start_thread(target, args, startMessage: str):
-    if isProcessingOtherQuestion():
-        return
+def start_thread(
+	target,
+	startMessage: str,
+	args: tuple = (),
+	kwargs: dict = {},
+):
+	if isProcessingOtherQuestion():
+		return
 
-    messenger.emitUiMessage(startMessage)
+	messenger.emitUiMessage(startMessage)
 
-    global threadObj
+	global threadObj
 
-    threadObj = threading.Thread(target=target, args=args, name=THREAD_NAME)
+	threadObj = threading.Thread(target=target, args=args, kwargs=kwargs, name=THREAD_NAME)
 
-    threadObj.start()
+	threadObj.start()

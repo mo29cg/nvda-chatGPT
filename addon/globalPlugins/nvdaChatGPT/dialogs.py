@@ -9,6 +9,7 @@ from gui import guiHelper
 import weakref
 from logHandler import log
 import addonHandler
+from .languages import ENGINE_OPTIONS
 
 
 try:
@@ -153,12 +154,14 @@ class QuestionDialog(wx.Dialog):
 		self.list_box.SetItems(items)
 
 	def conversation_flow(self, prompt: str):
+		model_index = configManager.getConfig("gptVersionSentenceIndex")
+		model_name = ENGINE_OPTIONS[model_index]
+
 		conversation = asker.askChatGPT(
 			prompt,
+			model=model_name,
 			conversation=self.conversation,
 		)
-
-		print("conversation", conversation)
 
 		self.conversation = conversation
 		self.refreshChatLog()
@@ -193,7 +196,7 @@ class QuestionDialog(wx.Dialog):
 			startMessage = _("asking the meaning to chatGPT")
 			requestThreader.start_thread(
 				target=asker.askChatGPT,
-				args=(asker.createAskMeaningPrompt(input),),
+				kwargs={"prompt": asker.createAskMeaningPrompt(input), "model": "gpt-3.5-turbo"},
 				startMessage=startMessage,
 			)
 		elif self.promptOption == EnumPromptOption.ASKSENTENCE:
