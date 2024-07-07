@@ -7,7 +7,6 @@ from . import (
 )
 
 from . import utils as utils
-import json
 from . import instructions as instructions
 from logHandler import log
 from .temporary_path import temporary_sys_path
@@ -58,7 +57,7 @@ def createMessage(prompt: str, pastConvo: Optional[List[Message]] = None):
 	return messages
 
 
-def askChatGPT(prompt: str, conversation=None):
+def askChatGPT(prompt: str, model: str, conversation=None):
 	messages = createMessage(prompt, conversation)
 
 	client = OpenAI(api_key=configManager.getConfig("apiKey"))
@@ -66,7 +65,8 @@ def askChatGPT(prompt: str, conversation=None):
 	try:
 		completion = client.chat.completions.create(
 			# TODO: use the model specified in config when asking a sentence.
-			model="gpt-3.5-turbo",
+			model=model,
+			# model="gpt-3.5-turbo",
 			messages=messages,
 		)
 
