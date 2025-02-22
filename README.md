@@ -53,11 +53,6 @@ External libraries are shown in `addon/globalPlugins/nvdaChatGPT/requirements.tx
 When nvda's python version is upgraded, you may need to re-bundle packages inside site-packages.  
 In that case, just delete everything inside `site-packages`, and re-install packages written in requirements.txt with upgraded version of python.
 
-### I need your supports!
-
-Due to my visual impairment, my capability for jobs is pretty limited.  
-I'd really appreciate donations if anyone find my add-on useful.  
-Here is the link: [paypal.me](https://paypal.me/satoshi26)
 
 ### contributor
 
